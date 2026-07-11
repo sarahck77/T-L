@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teaching &amp; Learning Activity Bank</title>
+<meta name="theme-color" content="#1C3A5E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brick:#1C3A5E;
+    --brick-dark:#132B47;
+    --brick-soft:#EAF0F7;
+    --ink:#263445;
+    --ink-soft:#5C6B7A;
+    --paper:#FFFFFF;
+    --line:#D8E0E8;
+    --gold:#2E8B6B;
+    --green:#2E8B6B;
+    --green-dark:#14614A;
+    --green-soft:#E3F1EB;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Nunito Sans',system-ui,-apple-system,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.55;
+  }
+  .display{font-family:'Baloo 2','Nunito Sans',sans-serif}
+
+  /* ---- Header: dotted frame motif from the deck ---- */
+  header{
+    background:var(--brick);
+    color:#fff;
+    padding:34px 20px 30px;
+  }
+  .frame{
+    max-width:1080px;margin:0 auto;
+    border:3px dotted rgba(255,255,255,.55);
+    border-radius:26px;
+    padding:34px 34px 30px;
+    position:relative;
+  }
+  .frame .brainmark{
+    position:absolute;top:-18px;right:26px;
+    background:var(--brick);padding:0 10px;font-size:30px;line-height:1;
+  }
+  header h1{
+    font-family:'Baloo 2',sans-serif;font-weight:800;
+    font-size:clamp(1.9rem,4.5vw,3rem);
+    letter-spacing:.3px;line-height:1.1;
+    text-shadow:0 3px 0 rgba(0,0,0,.18);
+  }
+  header p.sub{
+    margin-top:10px;font-size:1.05rem;max-width:62ch;opacity:.95;
+  }
+  header p.credit{
+    margin-top:16px;font-size:.85rem;opacity:.75;
+  }
+  header a{color:#fff}
+
+  /* ---- Filter bar ---- */
+  .filters{
+    max-width:1080px;margin:26px auto 6px;padding:0 20px;
+  }
+  .searchrow{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:16px}
+  .search{
+    flex:1;min-width:230px;
+    border:2px solid var(--line);border-radius:999px;
+    padding:11px 18px;font:inherit;font-size:.98rem;color:var(--ink);
+    outline:none;transition:border-color .15s;
+    background:#fff;
+  }
+  .search:focus{border-color:var(--brick)}
+  .count{font-weight:700;color:var(--ink-soft);font-size:.92rem;white-space:nowrap}
+  .clear-btn{
+    border:none;background:none;color:var(--brick);font:inherit;font-weight:800;
+    cursor:pointer;font-size:.9rem;padding:6px 10px;border-radius:8px;visibility:hidden;
+  }
+  .clear-btn.show{visibility:visible}
+  .clear-btn:hover{background:var(--brick-soft)}
+  .fgroup{margin-bottom:12px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .fgroup .flabel{
+    font-family:'Baloo 2',sans-serif;font-weight:700;font-size:.8rem;
+    text-transform:uppercase;letter-spacing:.09em;color:var(--brick);
+    min-width:96px;
+  }
+  .pills{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{
+    border:2px solid var(--line);background:#fff;color:var(--ink-soft);
+    border-radius:999px;padding:6px 15px;font:inherit;font-size:.88rem;font-weight:700;
+    cursor:pointer;transition:all .13s;
+  }
+  .pill:hover{border-color:var(--brick);color:var(--brick)}
+  .pill.on{background:var(--brick);border-color:var(--brick);color:#fff}
+  .pill:focus-visible,.search:focus-visible,.clear-btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+  /* ---- Grid & cards ---- */
+  main{max-width:1080px;margin:14px auto 60px;padding:0 20px}
+  .grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+    gap:22px;
+  }
+  .card{
+    border:2px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;background:#fff;display:flex;flex-direction:column;
+    transition:transform .15s, box-shadow .15s, border-color .15s;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:var(--brick);
+    box-shadow:0 10px 24px rgba(28,58,94,.16);
+  }
+  .iconband{
+    background:var(--brick);color:#fff;display:flex;align-items:center;gap:14px;
+    padding:16px 18px;border-bottom:2px solid var(--brick-dark);
+  }
+  .iconband .em{font-size:1.9rem;filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+  .iconband h3{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.22rem;line-height:1.15}
+  .cardbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:11px;flex:1}
+  .cardbody h3.wtitle{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.05rem;color:var(--brick);line-height:1.25}
+  .tags{display:flex;gap:6px;flex-wrap:wrap}
+  .tag{
+    font-size:.72rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;
+    background:var(--brick-soft);color:var(--brick-dark);
+    border-radius:6px;padding:3px 8px;
+  }
+  .tag.gold{background:#FBF0DA;color:#8A6413}
+  .desc{font-size:.94rem;color:var(--ink)}
+  details{border-top:1.5px dotted var(--line);padding-top:9px}
+  summary{
+    cursor:pointer;font-weight:800;font-size:.86rem;color:var(--green);
+    list-style:none;display:flex;align-items:center;gap:6px;user-select:none;
+  }
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"▸";transition:transform .15s;font-size:.8rem}
+  details[open] summary::before{transform:rotate(90deg)}
+  details ol{margin:9px 0 4px 20px;font-size:.9rem;display:grid;gap:5px}
+  .why{
+    margin-top:auto;
+    background:var(--green-soft);border-radius:12px;padding:11px 13px;
+    font-size:.86rem;color:var(--green-dark);
+  }
+  .why b{font-weight:800}
+
+  .empty{
+    text-align:center;padding:70px 20px;color:var(--ink-soft);display:none;
+  }
+  .empty .display{font-size:1.5rem;color:var(--brick);margin-bottom:8px}
+
+  footer{
+    border-top:2px dotted var(--line);
+    padding:26px 20px 40px;text-align:center;
+    font-size:.85rem;color:var(--ink-soft);
+  }
+  footer a{color:var(--brick);font-weight:700}
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important}
+    html{scroll-behavior:auto}
+  }
+  @media (max-width:560px){
+    .frame{padding:24px 20px}
+    .fgroup .flabel{min-width:100%}
+  }
+
+  /* ---- worksheet builder ---- */
+  .selbtn{
+    margin-top:auto;width:100%;border:none;border-top:1.5px solid var(--line);
+    background:#fff;color:var(--green);font:inherit;font-weight:800;font-size:.85rem;
+    padding:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:background .12s,color .12s;
+  }
+  .selbtn .chk{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:2px solid var(--green);font-size:.78rem;line-height:1}
+  .selbtn:hover{background:var(--green-soft)}
+  .selbtn.on{background:var(--green);color:#fff}
+  .selbtn.on .chk{border-color:#fff}
+  .card.selected{border-color:var(--green)}
+
+  .presbtn{
+    margin-top:auto;width:100%;border:none;border-top:1.5px solid var(--line);
+    background:#fff;color:var(--brick);font:inherit;font-weight:800;font-size:.85rem;
+    padding:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:background .12s,color .12s;
+  }
+  .presbtn .chk{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;border:2px solid var(--brick);font-size:.6rem;line-height:1;padding-left:1px}
+  .presbtn:hover{background:var(--brick);color:#fff}
+  .presbtn:hover .chk{border-color:#fff}
+
+  .present{position:fixed;inset:0;z-index:80;background:var(--brick);color:#fff;display:none;align-items:center;justify-content:center;padding:6vh 7vw;text-align:center}
+  .present.show{display:flex}
+  .present .pslide{display:flex;flex-direction:column;align-items:center;gap:3.2vh;max-width:1100px}
+  .present .ptag{font-family:'Baloo 2',sans-serif;font-weight:700;letter-spacing:.16em;text-transform:uppercase;font-size:clamp(.7rem,1.4vw,1rem);opacity:.68}
+  .present .pemoji{font-size:clamp(4rem,16vh,9rem);line-height:1;filter:drop-shadow(0 4px 0 rgba(0,0,0,.2))}
+  .present .pq{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:clamp(1.9rem,5.5vw,4.4rem);line-height:1.08;max-width:22ch}
+  .present .pcount{position:absolute;top:26px;left:50%;transform:translateX(-50%);font-weight:800;opacity:.7;font-size:1rem;letter-spacing:.05em}
+  .present .picon{position:absolute;top:18px;background:rgba(255,255,255,.15);border:none;color:#fff;width:44px;height:44px;border-radius:50%;font-size:1.15rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .present .picon:hover{background:rgba(255,255,255,.28)}
+  .present .pclose{right:22px}
+  .present .pfs{right:76px}
+  .present .parrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;width:62px;height:62px;border-radius:50%;font-size:2.4rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-bottom:6px}
+  .present .parrow:hover{background:rgba(255,255,255,.26)}
+  .present .parrow.left{left:2.5vw}
+  .present .parrow.right{right:2.5vw}
+  @media print{.present,.presbtn,.selbtn,.selbar{display:none !important}}
+
+  .selbar{
+    position:fixed;left:50%;transform:translateX(-50%);bottom:20px;z-index:50;
+    background:var(--brick);color:#fff;border-radius:999px;padding:10px 12px 10px 22px;
+    display:flex;align-items:center;gap:14px;box-shadow:0 8px 26px rgba(19,43,71,.34);
+  }
+  .selbar[hidden]{display:none}
+  .selbar #selcount{font-weight:800;font-size:.92rem}
+  .selbar button{border:none;border-radius:999px;font:inherit;font-weight:800;font-size:.88rem;cursor:pointer;padding:8px 16px}
+  .selbar #selmake{background:#fff;color:var(--brick)}
+  .selbar #selclear{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);padding:6px 14px}
+
+  .modal{position:fixed;inset:0;z-index:60;background:rgba(19,43,71,.55);display:flex;align-items:center;justify-content:center;padding:20px}
+  .modal[hidden]{display:none}
+  .modal-inner{background:#fff;border-radius:16px;max-width:920px;width:100%;max-height:92vh;overflow:auto;padding:26px 28px;position:relative}
+  .modal-x{position:absolute;top:14px;right:16px;border:none;background:none;font-size:1.2rem;cursor:pointer;color:var(--ink-soft)}
+  .modal-inner h2{font-family:'Baloo 2',sans-serif;color:var(--brick);font-size:1.5rem;margin-bottom:14px}
+  .ws-opts{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin-bottom:18px;font-size:.92rem}
+  .ws-opts label{display:flex;align-items:center;gap:7px}
+  .ws-opts input[type=text]{border:2px solid var(--line);border-radius:8px;padding:6px 10px;font:inherit;min-width:240px}
+  .ws-opts select{border:2px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit}
+  .ws-selhead{font-family:'Baloo 2',sans-serif;font-weight:800;color:var(--brick);font-size:.82rem;text-transform:uppercase;letter-spacing:.06em;margin:4px 0 8px}
+  .ws-selected{display:flex;flex-direction:column;gap:6px;margin-bottom:18px}
+  .ws-selrow{display:flex;align-items:center;gap:8px;background:var(--brick-soft);border-radius:10px;padding:8px 12px;font-size:.9rem}
+  .ws-selrow .t{flex:1;font-weight:700;color:var(--ink)}
+  .ws-selrow button{border:none;background:#fff;border-radius:6px;width:26px;height:26px;cursor:pointer;font-weight:800;color:var(--brick);line-height:1}
+  .ws-selrow button:disabled{opacity:.35;cursor:default}
+  .ws-preview-wrap{border:2px dashed var(--line);border-radius:12px;padding:18px;background:#fafbfc;max-height:360px;overflow:auto;margin-bottom:18px}
+  .modal-actions{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+  .btn-primary{background:var(--brick);color:#fff;border:none;border-radius:10px;font:inherit;font-weight:800;padding:11px 20px;cursor:pointer}
+  .btn-ghost{background:none;border:2px solid var(--line);border-radius:10px;font:inherit;font-weight:800;color:var(--ink-soft);padding:9px 18px;cursor:pointer}
+
+  /* worksheet styles are injected at runtime from WS_TPL_CSS (single source for preview + print) */
+  #worksheet{display:none}
+
+  /* ---- bank toggle + ATL finder mode ---- */
+  .fgroup.atl-only{display:none}
+  #atl-list .cluster{margin-bottom:14px;border:2px solid var(--line);border-radius:16px;overflow:hidden}
+  #atl-list .cl-head{background:var(--brick);color:#fff;padding:16px 20px}
+  #atl-list .cl-head .cat{font-family:'Baloo 2',sans-serif;font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.72rem;color:#CADCFC}
+  #atl-list .cl-head h2{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.35rem;margin:2px 0 6px}
+  #atl-list .cl-head .desc{font-size:.9rem;opacity:.92;max-width:82ch}
+  #atl-list .cl-body{padding:8px 14px 12px}
+  #atl-list details.ss{border-bottom:1px solid var(--line)}
+  #atl-list details.ss:last-child{border-bottom:none}
+  #atl-list details.ss summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;padding:12px 6px;font-weight:800;color:var(--ink);font-size:.98rem}
+  #atl-list details.ss summary::-webkit-details-marker{display:none}
+  #atl-list details.ss summary::before{content:"\25B8";color:var(--green);font-size:.8rem;transition:transform .15s}
+  #atl-list details.ss[open] summary::before{transform:rotate(90deg)}
+  #atl-list details.ss summary .cnt{margin-left:auto;background:var(--green-soft);color:var(--green-dark);font-size:.72rem;font-weight:800;border-radius:999px;padding:2px 9px;white-space:nowrap}
+  #atl-list details.ss summary .cnt.zero{background:#F0EEF0;color:var(--ink-soft)}
+  #atl-list .reslist{list-style:none;padding:2px 6px 14px 26px;display:flex;flex-direction:column;gap:7px}
+  #atl-list .res{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.92rem}
+  #atl-list .rty{font-size:.66rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;border-radius:6px;padding:3px 8px;white-space:nowrap;flex-shrink:0}
+  #atl-list .rty.Activity{background:#E3F1EB;color:#14614A}
+  #atl-list .rty.Video{background:#F3E4E8;color:#8A2E44}
+  #atl-list .rty.Worksheet{background:#EAF0F7;color:#1C3A5E}
+  #atl-list .rty[data-t="Article/Website"]{background:#FBF0DA;color:#8A6413}
+  #atl-list .rty[data-t="Tool/App"]{background:#E9E4F3;color:#4A2E8A}
+  #atl-list .rty.Other{background:#EDEDED;color:#555}
+  #atl-list .rtitle{color:var(--ink)}
+  #atl-list .rbank{font-size:.64rem;font-weight:800;letter-spacing:.03em;text-transform:uppercase;background:var(--brick);color:#fff;border-radius:6px;padding:3px 8px}
+  #atl-list .rlink{font-size:.76rem;font-weight:700;color:var(--ink-soft);border:1.5px dashed var(--line);border-radius:6px;padding:2px 8px;text-decoration:none}
+  #atl-list .rlink:hover{border-color:var(--green);color:var(--green)}
+  #atl-list .ss-empty{color:var(--ink-soft);font-style:italic;font-size:.88rem;padding:2px 6px 14px 26px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="frame">
+    <div class="brainmark" aria-hidden="true">🧠</div>
+    <h1>Teaching &amp; Learning Activity Bank</h1>
+    <p class="sub">A searchable bank of classroom activities — from warm-ups and retrieval to previewing, discussion, graphic organisers, checking understanding, and transfer. Filter by activity type, prep, timing, or lesson phase to find something for today's lesson.</p>
+  </div>
+</header>
+
+<div class="filters">
+  <div class="searchrow">
+    <input class="search" id="search" type="search" placeholder="Search activities… (e.g. quiz, whiteboard, breakfast)" aria-label="Search activities">
+    <span class="count" id="count"></span>
+    <button class="clear-btn" id="clearAll">✕ Clear filters</button>
+  </div>
+  <div class="fgroup" data-key="bank">
+    <span class="flabel">Bank</span>
+    <div class="pills" id="pills-bank">
+      <button class="pill bankpill on" id="bank-tl" type="button" aria-pressed="true">Teaching &amp; Learning</button>
+      <button class="pill bankpill" id="bank-atl" type="button" aria-pressed="false">ATL</button>
+    </div>
+  </div>
+  <div class="fgroup" data-key="type">
+    <span class="flabel" id="typeLabel">Type</span>
+    <div class="pills" id="pills-type"></div>
+  </div>
+  <div class="fgroup atl-only" data-key="cl">
+    <span class="flabel">ATL cluster</span>
+    <div class="pills" id="pills-cl"></div>
+  </div>
+  <div class="fgroup atl-only" data-key="rty">
+    <span class="flabel">Resource</span>
+    <div class="pills" id="pills-rty"></div>
+  </div>
+  <div class="fgroup" data-key="prep">
+    <span class="flabel">Prep</span>
+    <div class="pills" id="pills-prep"></div>
+  </div>
+  <div class="fgroup" data-key="time">
+    <span class="flabel">Duration</span>
+    <div class="pills" id="pills-time"></div>
+  </div>
+  <div class="fgroup" data-key="phase">
+    <span class="flabel">Lesson phase</span>
+    <div class="pills" id="pills-phase"></div>
+  </div>
+</div>
+
+<main>
+  <div class="grid" id="grid"></div>
+  <div id="atl-list" hidden></div>
+  <div class="empty" id="empty">
+    <div class="display">Nothing matches those filters</div>
+    <p>Try removing a filter or clearing the search box.</p>
+  </div>
+</main>
+
+<footer>
+  Built for teachers who love a good brain dump · Strategy cards inspired by the research on retrieval practice, spacing, and feedback.
+</footer>
+
+<div class="selbar" id="selbar" hidden>
+  <span id="selcount">0 selected</span>
+  <button id="selmake" type="button">Create worksheet</button>
+  <button id="selclear" type="button">Clear</button>
+</div>
+
+<div class="modal" id="wsmodal" hidden>
+  <div class="modal-inner">
+    <button class="modal-x" id="wsclose" type="button" aria-label="Close">✕</button>
+    <h2>Build a worksheet</h2>
+    <div class="ws-opts">
+      <label>Title <input id="wsTitle" type="text" value="Activity Worksheet"></label>
+      <label><input type="checkbox" id="optHeader" checked> Name / date header</label>
+      <label><input type="checkbox" id="optDesc" checked> Show descriptions</label>
+      <label><input type="checkbox" id="optSteps"> Show steps</label>
+      <label>Writing space
+        <select id="optSpace">
+          <option value="none">None</option>
+          <option value="sm">Small</option>
+          <option value="md" selected>Medium</option>
+          <option value="lg">Large</option>
+        </select>
+      </label>
+    </div>
+    <div class="ws-selhead">Activities <span id="wsSelCount"></span></div>
+    <div class="ws-selected" id="wsSelected"></div>
+    <div class="ws-selhead">Preview</div>
+    <div class="ws-preview-wrap"><div id="wsPreview"></div></div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="wsCloseBtn" type="button">Close</button>
+      <button class="btn-primary" id="wsPrint" type="button">Print / Save as PDF</button>
+    </div>
+  </div>
+</div>
+
+<div id="worksheet"></div>
+
+<div class="present" id="present" aria-hidden="true">
+  <div class="pcount" id="pcount"></div>
+  <button class="picon pclose" id="pclose" type="button" title="Close (Esc)" aria-label="Close">✕</button>
+  <button class="picon pfs" id="pfs" type="button" title="Fullscreen" aria-label="Fullscreen">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+  </button>
+  <button class="parrow left" id="pprev" type="button" title="Previous" aria-label="Previous">‹</button>
+  <button class="parrow right" id="pnext" type="button" title="Next" aria-label="Next">›</button>
+  <div class="pslide">
+    <div class="ptag">Low-Stakes Retrieval · Warm Up</div>
+    <div class="pemoji" id="pemoji" aria-hidden="true"></div>
+    <div class="pq" id="pq"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const cardEls = [...document.querySelectorAll('.card')];
+  let selOrder = [];
+
+  // ----- present-on-board overlay (Low-Stakes Retrieval) -----
+  const lowStakes = ACTIVITIES.map((a,i)=>({a,i})).filter(x=>x.a.type==='Low-Stakes Retrieval');
+  const lsPosById = {}; lowStakes.forEach((x,k)=>{ lsPosById[x.i]=k; });
+  const present = document.getElementById('present');
+  let pPos = 0;
+  function showSlide(k){
+    if(!lowStakes.length) return;
+    pPos = (k % lowStakes.length + lowStakes.length) % lowStakes.length;
+    const a = lowStakes[pPos].a;
+    document.getElementById('pq').textContent = a.title;
+    document.getElementById('pemoji').textContent = a.icon || '💭';
+    document.getElementById('pcount').textContent = (pPos+1)+' / '+lowStakes.length;
+  }
+  function presentKeys(e){
+    if(e.key==='Escape') closePresent();
+    else if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); showSlide(pPos+1); }
+    else if(e.key==='ArrowLeft') showSlide(pPos-1);
+  }
+  function openPresent(actIdx){
+    showSlide(lsPosById[actIdx]!==undefined ? lsPosById[actIdx] : 0);
+    present.classList.add('show'); present.setAttribute('aria-hidden','false');
+    document.addEventListener('keydown', presentKeys);
+  }
+  function closePresent(){
+    present.classList.remove('show'); present.setAttribute('aria-hidden','true');
+    document.removeEventListener('keydown', presentKeys);
+    if(document.fullscreenElement) document.exitFullscreen().catch(()=>{});
+  }
+  if(present){
+    document.getElementById('pprev').onclick=()=>showSlide(pPos-1);
+    document.getElementById('pnext').onclick=()=>showSlide(pPos+1);
+    document.getElementById('pclose').onclick=closePresent;
+    document.getElementById('pfs').onclick=()=>{
+      if(document.fullscreenElement){ document.exitFullscreen().catch(()=>{}); }
+      else if(present.requestFullscreen){ present.requestFullscreen().catch(()=>{}); }
+    };
+  }
+
+  // add an action button to every card: Present (low-stakes) or Add-to-worksheet
+  cardEls.forEach(card=>{
+    const i = +card.dataset.i;
+    const a = ACTIVITIES[i];
+    const btn = document.createElement('button'); btn.type='button';
+    if(a.type==='Low-Stakes Retrieval'){
+      btn.className='presbtn';
+      btn.innerHTML='<span class="chk">\u25B6</span><span class="lbl">Present on board</span>';
+      btn.addEventListener('click', ()=>openPresent(i));
+    } else {
+      btn.className='selbtn';
+      btn.innerHTML='<span class="chk">+</span><span class="lbl">Add to worksheet</span>';
+      btn.addEventListener('click', ()=>toggle(i));
+      card._selbtn = btn;
+    }
+    card.appendChild(btn);
+  });
+  const cardByIdx = i => cardEls.find(c=>+c.dataset.i===i);
+
+  function syncCard(i){
+    const c = cardByIdx(i), on = selOrder.includes(i);
+    c.classList.toggle('selected', on);
+    c._selbtn.classList.toggle('on', on);
+    c._selbtn.querySelector('.chk').textContent = on ? '✓' : '+';
+    c._selbtn.querySelector('.lbl').textContent = on ? 'Added' : 'Add to worksheet';
+  }
+  function toggle(i){
+    const p = selOrder.indexOf(i);
+    if(p>=0) selOrder.splice(p,1); else selOrder.push(i);
+    syncCard(i); updateBar();
+  }
+  function updateBar(){
+    const bar = document.getElementById('selbar');
+    bar.hidden = selOrder.length===0;
+    document.getElementById('selcount').textContent =
+      selOrder.length + (selOrder.length===1?' activity selected':' activities selected');
+  }
+
+  // ---------- worksheet rendering ----------
+  const esc = s => (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+  // blank scaffold builders (never filled-in answers)
+  function colsTable(labels, minh){
+    minh = minh || '5cm';
+    const head = labels.map(l=>`<div class="h">${esc(l)}</div>`).join('');
+    const body = labels.map(()=>`<div class="b" style="min-height:${minh}"></div>`).join('');
+    return `<div class="ws-cols" style="grid-template-columns:repeat(${labels.length},1fr)">${head}${body}</div>`;
+  }
+  function labelledLines(rows, minh){
+    minh = minh || '1.5cm';
+    return '<div class="ws-linelist">' + rows.map(r=>`<div class="row" style="min-height:${minh}"><span class="k">${esc(r)}</span></div>`).join('') + '</div>';
+  }
+
+  function quad(labels){ return '<div class="ws-frayer">' + labels.map(function(l){return '<div class="cell"><div class="lbl">'+esc(l)+'</div></div>';}).join('') + '</div>'; }
+  function stackBoxes(labels, minh){ minh = minh || '2cm'; return '<div class="ws-stack">' + labels.map(function(l){return '<div class="sb"><div class="lbl">'+esc(l)+'</div><div class="ws-box" style="min-height:'+minh+'"></div></div>';}).join('') + '</div>'; }
+
+  const TEMPLATES = {
+    "Connect, Extend, Challenge": () => colsTable(["Connect","Extend","Challenge"], '4.6cm'),
+    "What Makes You Say That?": () => labelledLines(["What's going on / what do you notice?","What makes you say that? (your evidence)"], '2cm'),
+    "Compass Points": () => quad(["E — Excited","W — Worrisome","N — Need to know","S — Stance / Suggestion"]),
+    "Tug of War": () => labelledLines(["Issue / dilemma:"], '1cm') + colsTable(["Reasons pulling one way","Reasons pulling the other way"], '5cm'),
+    "Levels of Questions": () => colsTable(["Factual","Conceptual","Debatable"], '5cm'),
+    "3-2-1 Bridge": () => labelledLines(["3 words:","2 questions:","1 analogy:","Bridge — how did your thinking change?"], '1.4cm'),
+    "I Used to Think, Now I Think": () => colsTable(["I used to think…","Now I think…"], '4.5cm'),
+    "Circle of Viewpoints": () => labelledLines(["Viewpoint / person I'm taking:","From this viewpoint, I think…","A question I have from this viewpoint:"], '1.5cm'),
+    "Step Inside": () => labelledLines(["Who / what am I stepping inside?","What can I perceive or know?","What might I care about?"], '1.5cm'),
+    "Text-to-Text, Self, World": () => labelledLines(["Text-to-Text:","Text-to-Self:","Text-to-World:"], '1.6cm'),
+    "Ladder of Feedback": () => labelledLines(["Clarify:","Value:","Concerns:","Suggest:"], '1.4cm'),
+    "TAG Feedback": () => labelledLines(["Tell — something you liked:","Ask — a question:","Give — a suggestion:"], '1.5cm'),
+    "Glow and Grow": () => colsTable(["Glow — a strength","Grow — a next step"], '4cm'),
+    "RAFTS": () => labelledLines(["Role:","Audience:","Format:","Topic:","Strong verb / purpose:"], '1.3cm'),
+    "PEEL Paragraph": () => stackBoxes(["Point","Evidence","Explain","Link"], '2cm'),
+    "Empathy Map": () => quad(["Says","Thinks","Does","Feels"]),
+    "SWOT Analysis": () => quad(["Strengths","Weaknesses","Opportunities","Threats"]),
+    "KWL Chart": () => colsTable(["Know","Want to know","Learned"], '5cm'),
+    "Reporter's Notebook": () => colsTable(["Facts","Feelings / opinions"], '6cm'),
+    "Sketchnoting": () => `<div class="ws-sketchwrap"><div class="lbl">Sketchnotes:</div><div class="ws-plain"></div></div>`,
+
+    "Frayer Model": () => `<div class="ws-frayer-wrap"><div class="ws-frayer">
+      <div class="cell"><div class="lbl">Definition</div></div>
+      <div class="cell"><div class="lbl">Characteristics</div></div>
+      <div class="cell"><div class="lbl">Examples</div></div>
+      <div class="cell"><div class="lbl">Non-examples</div></div>
+    </div><div class="ws-frayer-center">Concept</div></div>`,
+
+    "Venn Diagram": () => `<div class="ws-venn"><svg viewBox="0 0 520 280" width="100%" style="max-width:520px">
+      <circle cx="185" cy="152" r="120" fill="none" stroke="#333" stroke-width="1.5"/>
+      <circle cx="335" cy="152" r="120" fill="none" stroke="#333" stroke-width="1.5"/>
+      <text x="55" y="28" font-size="14" font-family="Georgia">A ________</text>
+      <text x="345" y="28" font-size="14" font-family="Georgia">B ________</text></svg></div>`,
+
+    "Y-Chart": () => `<div class="ws-ychart"><svg viewBox="0 0 600 440" width="100%" style="max-width:600px">
+      <rect x="2" y="2" width="596" height="436" fill="none" stroke="#333" stroke-width="2"/>
+      <line x1="300" y1="205" x2="20" y2="22" stroke="#333" stroke-width="1.5"/>
+      <line x1="300" y1="205" x2="580" y2="22" stroke="#333" stroke-width="1.5"/>
+      <line x1="300" y1="205" x2="300" y2="432" stroke="#333" stroke-width="1.5"/>
+      <text x="300" y="48" font-size="16" font-weight="bold" text-anchor="middle" font-family="Georgia">Looks like</text>
+      <text x="120" y="360" font-size="16" font-weight="bold" text-anchor="middle" font-family="Georgia">Feels like</text>
+      <text x="480" y="360" font-size="16" font-weight="bold" text-anchor="middle" font-family="Georgia">Sounds like</text></svg></div>`,
+
+    "Lotus Diagram": () => `<div class="ws-lotus">
+      <div class="c"></div><div class="c"></div><div class="c"></div>
+      <div class="c"></div><div class="c center">Topic</div><div class="c"></div>
+      <div class="c"></div><div class="c"></div><div class="c"></div></div>`,
+
+    "Ripple Effect": () => `<div class="ws-ripple">
+      <div class="ev"><span class="lbl">Event</span></div>
+      <div class="rw"><span class="lbl">Short-term</span><div class="sp"></div></div>
+      <div class="rw"><span class="lbl">Medium-term</span><div class="sp"></div></div>
+      <div class="rw"><span class="lbl">Long-term</span><div class="sp"></div></div></div>`,
+
+    "Cornell Notes": () => `<div class="ws-cornell">
+      <div class="top">
+        <div class="cue"><div class="lbl">Cues / Questions</div></div>
+        <div class="notes"><div class="lbl">Notes</div></div>
+      </div>
+      <div class="sum"><div class="lbl">Summary</div></div></div>`,
+
+    "Flowchart": () => `<div class="ws-flow">
+      <div class="fb"></div><div class="ar">&#8595;</div>
+      <div class="fb"></div><div class="ar">&#8595;</div>
+      <div class="fb"></div><div class="ar">&#8595;</div>
+      <div class="fb"></div></div>`,
+
+    "Concept Map From Memory": () => `<div class="ws-mindmap"><svg viewBox="0 0 640 400" width="100%" style="max-width:640px">
+      <line x1="320" y1="200" x2="120" y2="72" stroke="#333"/><line x1="320" y1="200" x2="520" y2="72" stroke="#333"/>
+      <line x1="320" y1="200" x2="70" y2="200" stroke="#333"/><line x1="320" y1="200" x2="570" y2="200" stroke="#333"/>
+      <line x1="320" y1="200" x2="150" y2="330" stroke="#333"/><line x1="320" y1="200" x2="490" y2="330" stroke="#333"/>
+      <ellipse cx="120" cy="72" rx="66" ry="34" fill="#fff" stroke="#333"/><ellipse cx="520" cy="72" rx="66" ry="34" fill="#fff" stroke="#333"/>
+      <ellipse cx="70" cy="200" rx="60" ry="32" fill="#fff" stroke="#333"/><ellipse cx="570" cy="200" rx="60" ry="32" fill="#fff" stroke="#333"/>
+      <ellipse cx="150" cy="330" rx="66" ry="34" fill="#fff" stroke="#333"/><ellipse cx="490" cy="330" rx="66" ry="34" fill="#fff" stroke="#333"/>
+      <ellipse cx="320" cy="200" rx="78" ry="42" fill="#fff" stroke="#333" stroke-width="1.75"/>
+      <text x="320" y="205" font-size="15" font-weight="bold" text-anchor="middle" font-family="Georgia">Topic</text></svg></div>`,
+
+    "3-2-1": () => colsTable(["3 things I learned","2 questions or connections","1 interesting or surprising thing"], '4.6cm'),
+    "PMI — Plus, Minus, Interesting": () => colsTable(["Plus","Minus","Interesting"], '5.4cm'),
+    "Three A's — Agree, Argue, Aha": () => colsTable(["Agree","Argue","Aha"], '5.4cm'),
+    "Parts–Purpose–Complexities": () => colsTable(["Parts","Purpose","Complexities"], '5.4cm'),
+    "Colour–Symbol–Image": () => colsTable(["Colour","Symbol","Image"], '4.6cm'),
+    "See-Think-Wonder": () => colsTable(["See","Think","Wonder"], '5.4cm'),
+
+    "Sentence–Phrase–Word": () => labelledLines(["Sentence:","Phrase:","Word:"], '1.7cm'),
+
+    "Two Truths and a Lie": () => `<div class="ws-numlines">
+      <div class="ln"><span class="n">1.</span></div>
+      <div class="ln"><span class="n">2.</span></div>
+      <div class="ln"><span class="n">3.</span></div></div>`,
+
+    "ABC Graffiti": () => {
+      let rows='';
+      for(let c=65;c<=90;c++){ rows += `<div class="row"><span class="k">${String.fromCharCode(c)}</span></div>`; }
+      return `<div class="ws-abc">${rows}</div>`;
+    },
+
+    "Exit Tweet & Hashtags": () => `<div class="ws-tweet">
+      <div class="hd">@ ________________________</div>
+      <div class="body"><span class="lbl">Today's lesson in 140 characters or less&hellip;</span></div>
+      <div class="tags"># ____________&nbsp;&nbsp;&nbsp; # ____________&nbsp;&nbsp;&nbsp; # ____________</div></div>`,
+
+    "Do-It-Yourself Dictionary": () => {
+      const entry = `<div class="entry"><div class="w">Word: </div>
+        <div class="lbl">Definition</div><div class="ws-box sm"></div>
+        <div class="lbl">Example sentence</div><div class="ws-box sm"></div></div>`;
+      return `<div class="ws-dict">${entry}${entry}</div>`;
+    },
+
+    "Anticipation Guide": () => {
+      let rows='';
+      for(let i=0;i<5;i++){ rows += `<tr><td class="ad">A&nbsp;/&nbsp;D</td><td class="st"></td><td class="ad">A&nbsp;/&nbsp;D</td></tr>`; }
+      return `<table class="ws-antic"><tr><th>Before</th><th>Statement</th><th>After</th></tr>${rows}</table>`;
+    },
+
+    "Sketch & Tell": () => `<div class="ws-sketchwrap"><div class="lbl">Sketch:</div><div class="ws-plain"></div></div>`,
+
+    "Which One Doesn't Belong?": () => `<div class="ws-wodb">
+      <div class="box"></div><div class="box"></div>
+      <div class="box"></div><div class="box"></div></div>` +
+      labelledLines(["Which one doesn't belong? Why?", ""], '1.3cm'),
+  };
+
+  function sheetHTML(){
+    const title = document.getElementById('wsTitle').value || 'Worksheet';
+    const wantHeader = document.getElementById('optHeader').checked;
+    const wantDesc = document.getElementById('optDesc').checked;
+    const wantSteps = document.getElementById('optSteps').checked;
+    const space = document.getElementById('optSpace').value;
+
+    let html = '<div class="ws-sheet"><div class="ws-title">' + esc(title) + '</div>';
+    if(wantHeader){
+      html += '<div class="ws-meta"><span>Name:&nbsp;</span><span>Date:&nbsp;</span><span>Class:&nbsp;</span></div>';
+    }
+    selOrder.forEach((idx,n)=>{
+      const a = ACTIVITIES[idx];
+      html += '<section class="ws-item"><h3>' + (n+1) + '. ' + esc(a.title) + '</h3>';
+      if(wantDesc && a.type!=='Low-Stakes Retrieval' && a.desc){
+        html += '<p class="ws-instr">' + esc(a.desc) + '</p>';
+      }
+      if(wantSteps && a.steps && a.steps.length){
+        html += '<ol class="ws-steps">' + a.steps.map(s=>'<li>'+esc(s)+'</li>').join('') + '</ol>';
+      }
+      // response area
+      if(TEMPLATES[a.title]){
+        html += TEMPLATES[a.title]();
+      } else if(space!=='none'){
+        html += '<div class="ws-box ' + space + '"></div>';
+      }
+      html += '</section>';
+    });
+    html += '<div class="ws-foot">Teaching &amp; Learning Activity Bank</div></div>';
+    return html;
+  }
+
+  function renderSelectedList(){
+    const wrap = document.getElementById('wsSelected');
+    document.getElementById('wsSelCount').textContent = '(' + selOrder.length + ')';
+    if(!selOrder.length){ wrap.innerHTML = '<div style="color:var(--ink-soft);font-size:.9rem">No activities selected yet.</div>'; return; }
+    wrap.innerHTML = '';
+    selOrder.forEach((idx,pos)=>{
+      const a = ACTIVITIES[idx];
+      const row = document.createElement('div'); row.className='ws-selrow';
+      row.innerHTML = '<span class="t">'+(pos+1)+'. '+esc(a.title)+'</span>'
+        + '<button data-act="up" title="Move up">↑</button>'
+        + '<button data-act="down" title="Move down">↓</button>'
+        + '<button data-act="rm" title="Remove">✕</button>';
+      row.querySelector('[data-act=up]').disabled = pos===0;
+      row.querySelector('[data-act=down]').disabled = pos===selOrder.length-1;
+      row.querySelector('[data-act=up]').onclick = ()=>{ [selOrder[pos-1],selOrder[pos]]=[selOrder[pos],selOrder[pos-1]]; refreshModal(); };
+      row.querySelector('[data-act=down]').onclick = ()=>{ [selOrder[pos+1],selOrder[pos]]=[selOrder[pos],selOrder[pos+1]]; refreshModal(); };
+      row.querySelector('[data-act=rm]').onclick = ()=>{ selOrder.splice(pos,1); syncCard(idx); updateBar(); refreshModal(); };
+      wrap.appendChild(row);
+    });
+  }
+  function renderPreview(){ document.getElementById('wsPreview').innerHTML = sheetHTML(); }
+  function refreshModal(){ renderSelectedList(); renderPreview(); }
+
+  // ---------- modal wiring ----------
+  const modal = document.getElementById('wsmodal');
+  function openModal(){ if(!selOrder.length) return; refreshModal(); modal.hidden=false; }
+  function closeModal(){ modal.hidden=true; }
+
+  document.getElementById('selmake').onclick = openModal;
+  document.getElementById('selclear').onclick = ()=>{ const cp=[...selOrder]; selOrder=[]; cp.forEach(syncCard); updateBar(); };
+  document.getElementById('wsclose').onclick = closeModal;
+  document.getElementById('wsCloseBtn').onclick = closeModal;
+  modal.addEventListener('click', e=>{ if(e.target===modal) closeModal(); });
+  ['wsTitle','optHeader','optDesc','optSteps','optSpace'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', renderPreview);
+  });
+
+  // single source of truth for all worksheet + scaffold styles (preview + print)
+  const WS_TPL_CSS =
+     ".ws-sheet{font-family:Georgia,'Times New Roman',serif;color:#111;background:#fff;max-width:720px;margin:0 auto}"
+    +".ws-title{font-size:1.55rem;font-weight:700;margin:0 0 6px}"
+    +".ws-meta{display:flex;gap:24px;font-size:.92rem;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:20px}"
+    +".ws-meta span{flex:1;border-bottom:1px solid #999;min-height:1.1em}"
+    +".ws-item{margin-bottom:22px;page-break-inside:avoid;break-inside:avoid}"
+    +".ws-item h3{font-size:1.08rem;margin:0 0 4px}"
+    +".ws-instr{font-size:.9rem;color:#333;margin:0 0 8px}"
+    +".ws-steps{font-size:.85rem;color:#333;margin:0 0 8px 18px}"
+    +".ws-foot{margin-top:22px;padding-top:8px;border-top:1px solid #999;font-size:.72rem;color:#666;text-align:center}"
+    +".ws-box{border:1.5px solid #333;border-radius:4px;background-image:repeating-linear-gradient(#fff,#fff 30px,#e3e3e3 31px);-webkit-print-color-adjust:exact;print-color-adjust:exact}"
+    +".ws-box.sm{min-height:2.2cm}.ws-box.md{min-height:4cm}.ws-box.lg{min-height:7cm}"
+    +".ws-plain{border:1.5px solid #333;border-radius:4px;min-height:7cm}"
+    +".ws-frayer-wrap{position:relative}"
+    +".ws-frayer{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid #333}"
+    +".ws-frayer .cell{min-height:3.6cm;border:.75px solid #333;padding:6px}"
+    +".ws-frayer .lbl{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}"
+    +".ws-frayer-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:32%;min-height:1.5cm;border:1.5px solid #333;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.74rem;font-weight:700;padding:6px}"
+    +".ws-venn,.ws-ychart,.ws-mindmap{display:flex;justify-content:center;margin-top:4px}"
+    +".ws-lotus{display:grid;grid-template-columns:repeat(3,1fr);border:1.5px solid #333}"
+    +".ws-lotus .c{min-height:2.6cm;border:.75px solid #333;padding:4px}"
+    +".ws-lotus .center{background:#ededed;-webkit-print-color-adjust:exact;print-color-adjust:exact;font-weight:700;text-align:center;font-size:.75rem;display:flex;align-items:center;justify-content:center}"
+    +".ws-ripple .ev{border:1.5px solid #333;border-radius:4px;min-height:1.4cm;padding:6px;margin-bottom:8px}"
+    +".ws-ripple .rw{display:flex;gap:10px;margin-bottom:8px}"
+    +".ws-ripple .rw .lbl{width:3.2cm;font-weight:700;font-size:.82rem;padding-top:6px}"
+    +".ws-ripple .rw .sp{flex:1;border:1.5px solid #333;border-radius:4px;min-height:1.7cm}"
+    +".ws-ripple .ev .lbl{font-weight:700;font-size:.82rem}"
+    +".ws-cornell{border:1.5px solid #333}"
+    +".ws-cornell .top{display:grid;grid-template-columns:1fr 2.3fr}"
+    +".ws-cornell .cue{border-right:1.5px solid #333;min-height:8cm;padding:6px}"
+    +".ws-cornell .notes{min-height:8cm;padding:6px}"
+    +".ws-cornell .sum{border-top:1.5px solid #333;min-height:2.4cm;padding:6px}"
+    +".ws-cornell .lbl{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em}"
+    +".ws-flow{display:flex;flex-direction:column;align-items:center}"
+    +".ws-flow .fb{width:70%;border:1.5px solid #333;border-radius:4px;min-height:1.5cm}"
+    +".ws-flow .ar{font-size:1.1rem;line-height:1;margin:3px 0}"
+    +".ws-cols{display:grid;border:1.5px solid #333}"
+    +".ws-cols .h{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;border:.75px solid #333;padding:5px;background:#f0f0f0;-webkit-print-color-adjust:exact;print-color-adjust:exact;text-align:center}"
+    +".ws-cols .b{border:.75px solid #333}"
+    +".ws-numlines .ln{display:flex;gap:8px;align-items:flex-end;border-bottom:1px solid #333;min-height:1.1cm;padding-bottom:2px}"
+    +".ws-numlines .ln .n{font-weight:700}"
+    +".ws-linelist .row{display:flex;gap:10px;align-items:flex-end;border-bottom:1px solid #333;padding-bottom:2px}"
+    +".ws-linelist .row .k{font-weight:700;font-size:.82rem}"
+    +".ws-abc{display:grid;grid-template-columns:1fr 1fr;gap:0 26px}"
+    +".ws-abc .row{display:flex;gap:8px;align-items:flex-end;border-bottom:1px solid #333;min-height:.82cm;padding-bottom:1px}"
+    +".ws-abc .row .k{font-weight:700;width:1.2em}"
+    +".ws-tweet{border:1.5px solid #333;border-radius:10px;padding:12px}"
+    +".ws-tweet .hd{font-weight:700;margin-bottom:8px}"
+    +".ws-tweet .body{min-height:3cm;border:1px dashed #999;border-radius:6px;padding:6px}"
+    +".ws-tweet .body .lbl{font-size:.8rem;color:#555}"
+    +".ws-tweet .tags{margin-top:10px;font-weight:700}"
+    +".ws-dict .entry{border:1.5px solid #333;border-radius:4px;padding:8px;margin-bottom:10px}"
+    +".ws-dict .entry .w{border-bottom:1px solid #333;min-height:1.1em;font-weight:700;margin-bottom:6px}"
+    +".ws-dict .entry .lbl{font-size:.74rem;font-weight:700;text-transform:uppercase;margin:6px 0 3px}"
+    +".ws-antic{width:100%;border-collapse:collapse}"
+    +".ws-antic th,.ws-antic td{border:1px solid #333;padding:5px;font-size:.82rem;vertical-align:top}"
+    +".ws-antic th{background:#f0f0f0;-webkit-print-color-adjust:exact;print-color-adjust:exact}"
+    +".ws-antic .ad{width:2.6cm;text-align:center;font-weight:700}"
+    +".ws-antic td.st{min-height:1.2cm}"
+    +".ws-sketchwrap .lbl{font-size:.8rem;font-weight:700;margin-bottom:4px}"
+    +".ws-wodb{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}"
+    +".ws-wodb .box{border:1.5px solid #333;border-radius:4px;min-height:2cm}"
+    +".ws-stack .sb{margin-bottom:8px}.ws-stack .sb .lbl{font-size:.78rem;font-weight:700;margin-bottom:3px}";
+
+  // inject for on-screen preview
+  (function(){ const st=document.createElement('style'); st.textContent=WS_TPL_CSS; document.head.appendChild(st); })();
+
+  const WS_PRINT_CSS = "*{box-sizing:border-box}body{margin:0;background:#fff}@page{margin:14mm}" + WS_TPL_CSS;
+
+  function printWorksheet(){
+    const title = (document.getElementById('wsTitle').value || 'Worksheet').replace(/[<>&]/g,'');
+    const auto = "window.onload=function(){setTimeout(function(){try{window.focus();window.print();}catch(e){}},250)};window.onafterprint=function(){window.close()};";
+    const doc = '<!doctype html><html><head><meta charset="utf-8"><title>'+title+'</title><style>'+WS_PRINT_CSS+'</style></head><body>'
+      + sheetHTML()
+      + '<scr'+'ipt>'+auto+'</scr'+'ipt></body></html>';
+    let w=null; try{ w=window.open('','_blank'); }catch(e){}
+    if(w && w.document){
+      w.document.open(); w.document.write(doc); w.document.close();
+    } else {
+      // pop-up blocked — download a self-printing worksheet file instead
+      const fname = (title.replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'').toLowerCase() || 'worksheet') + '.html';
+      const blob = new Blob([doc], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = fname;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 2000);
+    }
+  }
+  document.getElementById('wsPrint').onclick = printWorksheet;
+});
+</script>
+
+<script>
+const ACTIVITIES = [
+  // ---- Low-Stakes Retrieval warm-up questions ----
+  {"title":"What is your least favorite ice cream flavor?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🍦","age":"All ages","desc":"A zero-stakes opener: every student can answer, no content knowledge required. Use it to warm up the 'retrieval muscle' and build a classroom culture where answering out loud feels safe.","steps":["Display the question as students enter.","Give 30 seconds of think time.","Cold-call 3–4 students or do a quick whip-around.","Transition into content retrieval once everyone has spoken."],"why":"Low-stakes questions normalise participation, so students are more willing to attempt harder retrieval later."},
+  {"title":"If you could travel anywhere, where would you go?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🌍","age":"All ages","desc":"An imagination-based warm-up that gets every voice in the room early. Great for community building at the start of a lesson or term.","steps":["Display the question as students settle.","Pair-share for one minute.","Take a few answers, then pivot: 'Now let's travel back to last lesson…'"],"why":"Starting with success and personal connection lowers the affective filter before academic retrieval."},
+  {"title":"Would you rather live 100 years in the past or 100 years in the future?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"⏳","age":"All ages","desc":"A classic would-you-rather that sparks quick debate and reasoning. Students must justify their choice in one sentence.","steps":["Show the question; students pick a side.","Students justify their choice to a partner.","Sample a few justifications aloud."],"why":"Justifying a choice rehearses the claim–reason structure students need for academic argument."},
+  {"title":"If you had to wear a hat every day, what kind of hat would it be?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🎩","age":"All ages","desc":"A playful identity question that invites creativity and humour — perfect for a Friday warm-up.","steps":["Display the question.","Students sketch or describe their hat in 60 seconds.","Share a few with the class."],"why":"Playful prompts build rapport and make the classroom a safe place to take risks."},
+  {"title":"Would you rather sail a boat or ride in a hot air balloon?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"⛵","age":"All ages","desc":"A quick preference question with a built-in follow-up: why? Students practise giving reasons for choices.","steps":["Show the question; students move to a side of the room (or vote).","Ask 2–3 students from each side to justify.","Segue into the lesson."],"why":"Adding movement and choice raises energy and engagement before content work."},
+  {"title":"What is your favorite breakfast?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🥞","age":"All ages","desc":"Everyone eats — everyone can answer. A guaranteed-success question for building a talking culture.","steps":["Display the question on entry.","Whip-around: each student answers in three words or fewer.","Transition to content."],"why":"Universal-access questions guarantee every student starts the lesson with a successful contribution."},
+  {"title":"What is your favorite word?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"💬","age":"All ages","desc":"A language-lover's warm-up. Students share a favourite word and (optionally) why it appeals — sound, meaning, or memory.","steps":["Show the prompt.","Students jot their word and one reason.","Collect a handful aloud; celebrate unusual picks."],"why":"Talking about words builds vocabulary consciousness and word appreciation across subjects."},
+  {"title":"If you had to eat one food for the rest of your life, what would it be?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🍕","age":"All ages","desc":"A high-engagement hypothetical that always gets debate going. Bonus: ask students to defend their choice against a partner's.","steps":["Display the question.","Students choose and defend to a partner.","Optional: class vote on the most defensible choice."],"why":"Friendly debate warms up the justification skills used in academic discussion."},
+  {"title":"If animals could be musicians, which would be the best?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🎸","age":"All ages","desc":"An absurd creative prompt that rewards original thinking — there is no wrong answer, only funnier ones.","steps":["Show the question.","Students pick an animal + instrument combo.","Share the best pairings aloud."],"why":"Absurd prompts activate divergent thinking and signal that creative risk is welcome here."},
+  {"title":"What is your favorite emoji?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"😀","age":"All ages","desc":"Quick, modern, and universal — students share their most-used emoji and what it says about them.","steps":["Display the question.","Students draw or name their emoji.","Optional: guess-the-owner game with a few examples."],"why":"Personal micro-shares build belonging, a precondition for academic risk-taking."},
+  {"title":"What accomplishment are you most proud of?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🏆","age":"All ages","desc":"A strengths-based opener that lets students bring their whole selves into the room. Keep it voluntary and celebrate broadly.","steps":["Display the prompt with think time.","Students share with a partner first.","Invite volunteers to share with the class."],"why":"Recalling success primes confidence and effort for the learning ahead."},
+  {"title":"What was your favorite breakfast as a kid?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🥣","age":"Ages 16+","desc":"A nostalgia question for older students and adult learners — memory retrieval disguised as small talk.","steps":["Display the prompt.","Students recall and share in pairs.","Point out: 'You just did retrieval practice — now let's retrieve some content.'"],"why":"Episodic recall warms up the same memory processes used for content retrieval."},
+  {"title":"Have you ever been locked out of your car or house?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🔑","age":"Ages 16+","desc":"A story-starter question — everyone has (or knows) a lockout story. Great for practising concise narrative retelling.","steps":["Display the question.","Students tell their story in 30 seconds to a partner.","One or two volunteers share the best stories."],"why":"Storytelling warm-ups build oral fluency and narrative structure in a low-stakes way."},
+  {"title":"Would you ever go skydiving?","type":"Low-Stakes Retrieval","prep":"No prep","time":"< 5 min","phase":"Warm Up","icon":"🪂","age":"Ages 16+","desc":"A risk-appetite question that reliably splits the room. Follow up with 'what would change your mind?'","steps":["Show the question; students vote yes/no.","Ask each side to persuade the other in one sentence.","Segue into the lesson."],"why":"Perspective-swapping questions rehearse the empathy needed for balanced discussion."},
+
+  // ---- Retrieval practice ----
+  {"title":"Brain Dump","type":"Retrieval","icon":"🧠","prep":"No prep","time":"5–10 min","phase":"Warm Up","desc":"Students write down everything they can remember about a topic — no notes, no books, no talking. Then compare with a partner and fill the gaps.","steps":["Set a timer for 3–5 minutes.","Students write everything they remember about the topic.","Pairs compare lists and add anything they missed.","Reveal key points; students self-check and correct."],"why":"Free recall is one of the most powerful ways to strengthen memory — the effort of retrieving does the learning."},
+  {"title":"Two Things","type":"Retrieval","icon":"✌️","prep":"No prep","time":"< 5 min","phase":"Any","desc":"Ask students to write two things about a prompt: two things they learned today, two things from last week, two examples of a concept — quick, flexible, endlessly reusable.","steps":["Pose a 'two things' prompt (e.g. 'two causes of…').","Students write silently for one minute.","Sample responses with cold calling or a quick share."],"why":"Tiny retrieval demands lower the barrier to participation while still forcing memory search."},
+  {"title":"Last Lesson, Last Week, Last Term","type":"Retrieval","icon":"📅","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"Three quick questions at the start of the lesson: one from last lesson, one from last week, one from last term. Spaced retrieval built into your routine.","steps":["Prepare one question from each time interval.","Students answer all three in books or on whiteboards.","Review answers; reteach anything shaky."],"why":"Spacing retrieval over increasing intervals produces durable long-term learning."},
+  {"title":"Low-Stakes Quiz","type":"Retrieval","icon":"📝","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"A short, ungraded quiz (5–8 questions) covering recent and older material. The point is practice, not grades — celebrate errors as learning data.","steps":["Write 5–8 questions mixing recent and older content.","Students answer individually, closed book.","Self- or peer-mark with immediate feedback.","Log common errors to reteach."],"why":"Frequent low-stakes testing beats re-reading for retention — the testing effect is one of the most replicated findings in learning science."},
+  {"title":"Retrieval Grid","type":"Retrieval","icon":"🔲","prep":"Medium prep","time":"10–20 min","phase":"Warm Up","desc":"A grid of questions worth different points based on how long ago the content was taught — older questions score more. Students answer as many as they can.","steps":["Build a 3×4 grid: recent topics 1pt, older topics 3–5pts.","Students answer as many as possible in the time limit.","Teams tally scores; review the tricky ones."],"why":"Weighting older material incentivises the spaced retrieval that students naturally avoid."},
+  {"title":"Think-Pair-Retrieve","type":"Retrieval","icon":"👥","prep":"No prep","time":"5–10 min","phase":"Any","desc":"Think-pair-share with a retrieval twist: students first retrieve individually in silence, then compare answers with a partner before sharing out.","steps":["Pose a retrieval question.","Silent solo retrieval — write, don't discuss.","Pairs compare and refine answers.","Share out and confirm the correct answer."],"why":"Solo effort first ensures every student retrieves, rather than borrowing a partner's memory."},
+  {"title":"Mini Whiteboard Showdown","type":"Retrieval","icon":"🖊️","prep":"Low prep","time":"10–20 min","phase":"Any","desc":"Every student answers every question on a mini whiteboard and holds it up on cue. Instant whole-class feedback for you, full participation for them.","steps":["Ask a question; students write answers on whiteboards.","'3, 2, 1 — show me!' Everyone reveals at once.","Scan the room; address misconceptions immediately.","Repeat with escalating difficulty."],"why":"Simultaneous response makes every student accountable and gives the teacher real-time assessment data."},
+  {"title":"Flashcards Done Right","type":"Retrieval","icon":"🃏","prep":"Low prep","time":"10–20 min","phase":"Practice","desc":"Teach students to use flashcards properly: say the answer aloud before flipping, shuffle the deck, and retire cards only after three consecutive correct recalls.","steps":["Students create cards: question one side, answer the other.","Rule 1: say the answer aloud before flipping.","Rule 2: shuffle — never memorise order.","Rule 3: three consecutive corrects to retire a card."],"why":"Most students use flashcards passively; these rules force genuine retrieval and spaced repetition."},
+  {"title":"Concept Map From Memory","type":"Retrieval","icon":"🕸️","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Students draw a concept map of the topic entirely from memory, then compare against notes and add missing links in a different colour.","steps":["Books closed: students map the topic from memory.","Open notes: add missing ideas in a second colour.","Reflect: 'The second colour shows what to revise.'"],"why":"Mapping forces retrieval of both ideas and the relationships between them — deeper than listing facts."},
+  {"title":"Sketch & Tell","type":"Retrieval","icon":"✏️","prep":"No prep","time":"5–10 min","phase":"Consolidation","desc":"Students sketch a concept from memory (no words allowed), then explain their sketch to a partner who guesses the concept.","steps":["Name a concept; students sketch it wordlessly.","Partners swap sketches and guess.","Sketcher explains their thinking aloud."],"why":"Dual coding — combining images with verbal explanation — creates two memory pathways instead of one."},
+  {"title":"Exit Ticket","type":"Retrieval","icon":"🎟️","prep":"Low prep","time":"< 5 min","phase":"Plenary","desc":"One to three questions answered on a slip of paper before students leave. Sort responses into piles to plan tomorrow's starter.","steps":["Pose 1–3 questions covering today's key learning.","Students answer on slips as their ticket out.","Sort into got it / nearly / not yet piles.","Open tomorrow's lesson by addressing the 'not yets'."],"why":"Exit tickets turn the end of every lesson into formative assessment that drives the next one."},
+  {"title":"Quiz-Quiz-Trade","type":"Retrieval","icon":"🔄","prep":"Medium prep","time":"10–20 min","phase":"Practice","desc":"Each student gets a question card. They pair up, quiz each other, trade cards, and find a new partner. High energy, high repetition.","steps":["Give each student a card with a question (answer on back).","Students pair up and quiz each other.","Partners trade cards and find someone new.","Repeat for 8–10 minutes."],"why":"Students retrieve many different questions and rehearse explaining answers — repetition without boredom."},
+  {"title":"Cops & Robbers","type":"Retrieval","icon":"🚓","prep":"No prep","time":"5–10 min","phase":"Warm Up","desc":"Students list what they know in the 'cops' column, then roam the room to 'rob' ideas from classmates for the 'robbers' column — crediting their source.","steps":["Two columns: Cops (my ideas) and Robbers (stolen ideas).","3 minutes: fill the Cops column solo from memory.","3 minutes: circulate and 'steal' new ideas, noting who from.","Debrief the best stolen ideas."],"why":"Combines individual retrieval with collaborative gap-filling — and the movement keeps energy high."},
+  {"title":"Elaboration Follow-Ups","type":"Retrieval","icon":"🔍","prep":"No prep","time":"5–10 min","phase":"Any","desc":"After any retrieval question, follow up with how and why questions: 'Why does that happen? How does that connect to…?' Turn recall into understanding.","steps":["Ask a standard retrieval question.","Follow the answer with 'Why?' or 'How do you know?'","Push one more level: 'How does that connect to…?'"],"why":"Elaborative interrogation links new memories into existing knowledge networks, making them easier to find later."},
+  {"title":"Muddiest & Clearest Point","type":"Retrieval","icon":"🌫️","prep":"No prep","time":"< 5 min","phase":"Plenary","desc":"Students write the clearest thing they learned today and the muddiest — the thing they least understand. Instant feedback for planning.","steps":["Two prompts: 'Clearest point?' and 'Muddiest point?'","Students answer anonymously on slips.","Skim the muddiest points and address the top pattern tomorrow."],"why":"Asking students to identify confusion trains metacognitive monitoring — knowing what you don't know."},
+  {"title":"Free Recall Relay","type":"Retrieval","icon":"🏃","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Teams share one whiteboard or poster. Students take turns adding one fact at a time from memory — no repeats, no notes.","steps":["Teams of 4–5 with one shared writing surface.","Students rotate, adding one remembered fact per turn.","No repeats allowed; teammates may not prompt.","Longest accurate list wins."],"why":"Turn-taking guarantees every team member retrieves, and hearing teammates' facts cues further recall."},
+  {"title":"Brain Dump & Bridge","type":"Retrieval","icon":"🌉","prep":"No prep","time":"10–20 min","phase":"Warm Up","desc":"A brain dump on the previous topic, then a challenge: draw a bridge connecting your old knowledge to today's new topic before it's taught.","steps":["Brain dump the previous topic (3 minutes).","Announce today's topic.","Students predict connections: 'What might link these?'","Return to their predictions at the end of the lesson."],"why":"Activating prior knowledge and predicting links primes the brain to integrate new learning."},
+  {"title":"Explain How It Works","type":"Retrieval","icon":"⚙️","prep":"No prep","time":"5–10 min","phase":"Practice","desc":"Students explain a mechanism, process, or method step by step from memory — as if teaching someone who has never seen it.","steps":["Name a process (e.g. photosynthesis, long division).","Students write or voice a step-by-step explanation from memory.","Compare with a model explanation; students patch gaps."],"why":"Explaining mechanisms exposes gaps that recognition-style questions hide."},
+  {"title":"Mixed Question Medley","type":"Retrieval","icon":"🎲","prep":"Medium prep","time":"10–20 min","phase":"Practice","desc":"A question set that deliberately interleaves different topics and question types, so students must choose the right strategy — not just repeat the last one.","steps":["Write 8–10 questions mixing several topics/skills.","Shuffle so no two consecutive questions match.","Students answer, naming the topic/strategy for each.","Review, focusing on strategy selection."],"why":"Interleaving forces discrimination between problem types — harder in the moment, far better for transfer."},
+  {"title":"Feedback That Connects","type":"Retrieval","icon":"🔗","prep":"Low prep","time":"5–10 min","phase":"Any","desc":"After a quiz, don't just give the right answers — ask students to connect each error to the rule or concept they should have used.","steps":["Return quiz results without grades.","For each error, students write the rule/concept that applies.","Students redo one wrong question using that rule."],"why":"Connecting errors to underlying concepts converts mistakes into stronger schemas rather than shame."},
+  {"title":"Hint Cards","type":"Retrieval","icon":"🗂️","prep":"Medium prep","time":"10–20 min","phase":"Practice","desc":"Struggling students can take a hint card — but each hint 'costs' a point. Teaches students to attempt retrieval before reaching for help.","steps":["Prepare tiered hint cards for the task.","Students attempt problems unaided first.","Hints available at a small cost (points/time).","Debrief: who needed which hints, and why?"],"why":"Delaying help increases retrieval effort — the struggle itself strengthens memory (desirable difficulty)."},
+
+  // ---- Transfer & application ----
+  {"title":"Format Flip","type":"Transfer","icon":"🔀","prep":"Low prep","time":"10–20 min","phase":"Practice","desc":"Students re-express learning in a new format: turn a graph into a paragraph, a paragraph into a diagram, an equation into a story problem.","steps":["Give content in one format.","Students translate it into a different format.","Pairs compare translations for accuracy.","Discuss what each format shows or hides."],"why":"Translating between representations reveals whether students understand the idea or just its packaging."},
+  {"title":"New Problem, Old Tools","type":"Transfer","icon":"🧰","prep":"Medium prep","time":"10–20 min","phase":"Practice","desc":"Present an unfamiliar problem and ask: 'Which tools we already know could work here?' Students must select strategies, not just execute them.","steps":["Show a novel problem (no method named).","Students list known strategies that might apply.","Justify the best-fit strategy before solving.","Solve, then evaluate the choice."],"why":"Strategy selection is where transfer lives — most practice skips it by naming the method in advance."},
+  {"title":"Same Idea, New Topic","type":"Transfer","icon":"🌱","prep":"Low prep","time":"5–10 min","phase":"Consolidation","desc":"Ask students to find the concept they just learned somewhere else: another subject, the news, their own life. One concept, three habitats.","steps":["Name today's key concept.","Students find it in another subject, in the world, and at home.","Share the most surprising sightings."],"why":"Spotting a concept in varied contexts builds the flexible knowledge that transfers."},
+  {"title":"Concept in Disguise","type":"Transfer","icon":"🎭","prep":"Medium prep","time":"10–20 min","phase":"Practice","desc":"Give examples where the target concept appears in unfamiliar clothing. Students must recognise the deep structure beneath the new surface.","steps":["Prepare 3–4 scenarios hiding the same concept.","Students identify the concept and justify it.","Discuss which surface features misled them."],"why":"Experts see deep structure; novices see surface features. This trains the expert habit directly."},
+  {"title":"Real-World Application Round","type":"Transfer","icon":"🌏","prep":"Low prep","time":"10–20 min","phase":"Consolidation","desc":"Teams race to generate genuine real-world applications of today's learning, then vote on the most plausible and the most creative.","steps":["Teams brainstorm real applications (5 minutes).","Each team pitches its best two.","Class votes: most plausible + most creative.","Discuss what makes an application genuine."],"why":"Generating applications forces students to abstract the principle from the classroom example."},
+  {"title":"Analogy Architects","type":"Transfer","icon":"🏗️","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Students build an analogy for the concept ('X is like Y because…'), then stress-test it: where does the analogy break down?","steps":["Students draft an analogy for the concept.","Partner tests it: 'Where does it break?'","Refine or replace the analogy.","Share the strongest analogies and their limits."],"why":"Building and breaking analogies maps the true boundaries of a concept."},
+  {"title":"Transfer Ticket","type":"Transfer","icon":"🎫","prep":"Low prep","time":"< 5 min","phase":"Plenary","desc":"An exit ticket with a twist: the question applies today's learning to a context never mentioned in the lesson.","steps":["Write one application question set in a new context.","Students answer as their exit ticket.","Use the responses to gauge depth, not just recall."],"why":"If students can only answer in the taught context, learning hasn't transferred yet — this tells you."},
+
+  // ---- Previewing new content ----
+  {"title":"See-Think-Wonder","type":"Previewing","icon":"👁️","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"Show an image, object, or clip related to the new topic. Students record what they see, what they think is going on, and what they wonder.","steps":["Display a rich image or artefact.","Students: 'I see… I think… I wonder…'","Share wonders; keep them visible during the unit."],"why":"Structured noticing slows students down and separates observation from interpretation."},
+  {"title":"Visual Synectics","type":"Previewing","icon":"🖼️","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"Show four unrelated images and ask: 'How is our new topic like each of these?' Forced connections spark curiosity before teaching begins.","steps":["Display four random images.","'How might [new topic] be like this picture?'","Students make forced analogies in pairs.","Collect the most interesting connections."],"why":"Forced analogies activate diverse prior knowledge and create hooks for new content."},
+  {"title":"Mystery Box","type":"Previewing","icon":"📦","prep":"Medium prep","time":"5–10 min","phase":"Warm Up","desc":"Reveal clues about the upcoming topic one at a time from a box (real or virtual). Students revise their guesses after each clue.","steps":["Prepare 4–5 clues of increasing specificity.","Reveal clues one by one.","Students update their guess after each clue.","Reveal the topic; discuss which clue helped most."],"why":"Prediction with feedback creates curiosity — and curiosity measurably improves memory for what follows."},
+  {"title":"Anticipation Guide","type":"Previewing","icon":"🧭","prep":"Medium prep","time":"10–20 min","phase":"Warm Up","desc":"Students agree or disagree with provocative statements about the new topic before learning, then revisit their answers afterwards.","steps":["Write 4–6 agree/disagree statements about the topic.","Students commit to positions before instruction.","Teach the content.","Students revisit: what changed, and why?"],"why":"Committing to a prediction makes students care about the answer — and revisiting reveals learning."},
+  {"title":"Word Splash","type":"Previewing","icon":"💦","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"Splash 8–10 key words from the upcoming topic on the board. Students predict how the words connect in sentences before the lesson begins.","steps":["Display key vocabulary scattered on the board.","Students write sentences predicting how words connect.","Share predictions; revisit them at the lesson's end."],"why":"Predicting relationships between terms creates a scaffold that the lesson then confirms or corrects."},
+  {"title":"What Do You Think You Know?","type":"Previewing","icon":"❓","prep":"No prep","time":"5–10 min","phase":"Warm Up","desc":"Before a new topic, students list everything they think they know — including guesses. Misconceptions surface where you can see them.","steps":["'Write everything you think you know about X.'","Mark each item: sure / think / guessing.","Collect common claims — especially the shaky ones.","Return at unit's end: confirm, correct, celebrate."],"why":"Surfacing prior knowledge (and misconceptions) tells you what to build on and what to rebuild."},
+  {"title":"Prove Me Wrong","type":"Previewing","icon":"⚖️","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"Open with a deliberately false or oversimplified claim about the new topic. Students hunt for evidence against it as they learn.","steps":["State a plausible-but-flawed claim.","Students note counter-evidence during the lesson.","End: students present their strongest rebuttals."],"why":"A refutation mindset drives active reading and listening far better than 'take notes'."},
+  {"title":"Believe It or Not","type":"Previewing","icon":"🎪","prep":"Medium prep","time":"5–10 min","phase":"Warm Up","desc":"Present surprising facts about the topic — some true, some invented. Students vote believe/don't believe, then learn which are real.","steps":["Prepare 5 facts: 3 true, 2 plausible fakes.","Students vote on each.","Reveal answers as a hook into the content."],"why":"Surprise and uncertainty trigger curiosity, priming attention for the lesson."},
+  {"title":"Sort It!","type":"Previewing","icon":"🗃️","prep":"Medium prep","time":"10–20 min","phase":"Warm Up","desc":"Give groups cards with terms, images, or examples from the new topic. They invent their own categories before being taught the official ones.","steps":["Hand out card sets to small groups.","Groups sort cards into categories they invent.","Groups explain their sorting logic.","Teach the expert categorisation; compare."],"why":"Inventing categories first makes the expert structure meaningful instead of arbitrary."},
+
+  // ---- Checking understanding ----
+  {"title":"Red & Green Discs","type":"Checking","icon":"🔴","prep":"Low prep","time":"Ongoing","phase":"Any","desc":"Every student has a two-sided disc: green side up means 'I'm following', red means 'I need help'. A silent, continuous signal you can scan at a glance.","steps":["Give each student a red/green disc or card.","Green up while working; flip to red when stuck.","Scan the room; triage the reds first."],"why":"Continuous silent signalling removes the social cost of asking for help."},
+  {"title":"Thumbs Up, Thumbs Down","type":"Checking","icon":"👍","prep":"No prep","time":"< 5 min","phase":"Any","desc":"The classic instant check — but done right: eyes closed so students can't copy each other, and always followed by a probe question.","steps":["'Eyes closed. Thumbs up if confident, sideways if unsure, down if lost.'","Scan and note the spread.","Probe a 'sideways' student with a question to calibrate."],"why":"Eyes-closed voting gives honest data; probing checks whether confidence matches competence."},
+  {"title":"Five-Finger Test","type":"Checking","icon":"🖐️","prep":"No prep","time":"< 5 min","phase":"Plenary","desc":"Students rate their understanding from one finger (lost) to five (could teach it). Pair fives with ones and twos for a peer-teach round.","steps":["Students show 1–5 fingers for confidence.","Pair 4–5s with 1–2s.","Two minutes of peer teaching.","Re-vote and compare."],"why":"Self-rating plus immediate peer teaching converts assessment into intervention on the spot."},
+  {"title":"Traffic Light Check","type":"Checking","icon":"🚦","prep":"Low prep","time":"< 5 min","phase":"Any","desc":"Students mark their work or notes green (secure), amber (mostly), red (help!). Use the colours to form tomorrow's support groups.","steps":["Students traffic-light each learning objective.","Collect or scan the colours.","Group reds for reteaching; ambers for practice; greens for extension."],"why":"Colour-coded self-assessment makes differentiation decisions fast and visible."},
+  {"title":"No Opt-Out","type":"Checking","icon":"🎯","prep":"No prep","time":"Ongoing","phase":"Any","desc":"When a student says 'I don't know', get the answer from elsewhere — then return to the original student to repeat or improve it.","steps":["Student A can't answer; ask student B (or give the answer).","Return to student A: 'Now you tell me.'","A repeats or extends the answer.","Keep the tone warm — this is practice, not punishment."],"why":"Ending on success rehearses the right answer and signals that everyone participates in thinking."},
+  {"title":"Live Poll","type":"Checking","icon":"📊","prep":"Low prep","time":"< 5 min","phase":"Any","desc":"A quick multiple-choice question answered by every student at once — hands, corners, coloured cards, or a polling app. Discuss the split before revealing.","steps":["Pose an MCQ with a tempting distractor.","All students vote simultaneously.","Pairs defend their answer to each other; re-vote.","Reveal and unpack the distractor."],"why":"Peer discussion between votes produces measurable learning gains — the classic peer instruction effect."},
+  {"title":"Spotlight Check","type":"Checking","icon":"🔦","prep":"No prep","time":"5–10 min","phase":"Practice","desc":"While the class works, spotlight one student's (anonymous) work on the board. The class identifies one strength and one improvement.","steps":["Photograph or copy one student's in-progress work.","Display anonymously.","Class: one strength, one suggestion.","All students apply the suggestion to their own work."],"why":"Analysing live work teaches quality criteria far better than abstract success criteria lists."},
+
+  // ---- Engagement & energy ----
+  {"title":"Four Corners","type":"Engagement","icon":"📐","prep":"Low prep","time":"5–10 min","phase":"Any","desc":"Label the room's corners with four options or opinions. Students move to their choice and defend it — bodies as ballots.","steps":["Post four options in the corners.","Pose the question; students move.","Each corner confers, then makes its case.","Allow defections after arguments are heard."],"why":"Physical commitment raises engagement, and allowing movement models changing one's mind with evidence."},
+  {"title":"Hammer & Nail","type":"Engagement","icon":"🔨","prep":"No prep","time":"5–10 min","phase":"Practice","desc":"In pairs, one student is the 'hammer' (asks hard questions), the other the 'nail' (defends their answer). Then swap roles.","steps":["Pairs: hammer questions, nail defends.","Two minutes, then swap roles.","Debrief the best questions asked."],"why":"Generating challenging questions is as demanding as answering them — both roles retrieve deeply."},
+  {"title":"Call & Response Hooks","type":"Engagement","icon":"📣","prep":"No prep","time":"Ongoing","phase":"Any","desc":"Teach the class content-based call-and-response pairs ('Mitochondria?' — 'Powerhouse of the cell!'). Silly, fast, and surprisingly sticky.","steps":["Create a call-and-response for a key fact.","Rehearse until automatic.","Deploy at random moments through the week."],"why":"Choral rehearsal builds automaticity, and the ritual creates shared classroom identity."},
+  {"title":"Choral Response","type":"Engagement","icon":"🎶","prep":"No prep","time":"Ongoing","phase":"Practice","desc":"On cue, the whole class answers together aloud. Ideal for pronunciation, vocabulary, formulas, and facts that need automaticity.","steps":["Signal: 'Everyone —' with a clear gesture.","Class responds in unison.","Listen for weak or wrong responses; repeat as needed."],"why":"Unison response gives massed practice with total participation and zero embarrassment."},
+  {"title":"Would You Rather (Movement)","type":"Engagement","icon":"🚶","prep":"No prep","time":"< 5 min","phase":"Any","desc":"A quick binary question — students move to one side of the room or the other. Works for opinions and for content ('Is this an acid or a base?').","steps":["Pose a binary question.","Students move to the matching side.","One volunteer per side justifies.","Optional: allow crossing after hearing arguments."],"why":"Movement re-energises the room while making every student's thinking visible."},
+  {"title":"Movement Brain Break","type":"Engagement","icon":"🤸","prep":"No prep","time":"< 5 min","phase":"Any","desc":"Ninety seconds of structured movement — stretch, cross-crawls, or desk-side exercise — timed for the mid-lesson attention dip.","steps":["Watch for the attention dip (usually 20–25 min in).","Lead 90 seconds of simple movement.","Return with a quick retrieval question to refocus."],"why":"Brief physical activity measurably restores attention and working memory capacity."},
+  {"title":"Mindfulness Reset","type":"Engagement","icon":"🧘","prep":"No prep","time":"< 5 min","phase":"Any","desc":"Sixty seconds of quiet breathing or focused listening to reset the room after transitions, breaks, or high-energy activities.","steps":["Signal the reset routine.","60 seconds: eyes closed or soft focus, slow breathing.","Transition calmly into the next task."],"why":"Brief mindfulness lowers arousal to the level focused work requires — especially after lunch or PE."},
+
+  // ---- Graphic organisers ----
+  {"title":"Frayer Model","type":"Graphic Organiser","icon":"🔤","prep":"Low prep","time":"10–20 min","phase":"Practice","desc":"A four-quadrant vocabulary organiser: definition, characteristics, examples, and non-examples, with the concept at the centre.","steps":["Concept in the centre.","Fill: definition, characteristics, examples, non-examples.","Compare with a partner; refine the non-examples especially."],"why":"Non-examples force students to find the concept's boundaries — where real understanding lives."},
+  {"title":"Venn Diagram","type":"Graphic Organiser","icon":"⭕","prep":"No prep","time":"5–10 min","phase":"Practice","desc":"Two overlapping circles for comparing and contrasting. Push students beyond surface features into structural similarities.","steps":["Label the circles with the two items.","Fill unique features, then the overlap.","Challenge: add one non-obvious similarity.","Convert the diagram into comparison sentences."],"why":"Comparison is a top-effect-size strategy — the diagram scaffolds it visibly."},
+  {"title":"Y-Chart","type":"Graphic Organiser","icon":"🔱","prep":"No prep","time":"5–10 min","phase":"Warm Up","desc":"Three zones — looks like, sounds like, feels like — for unpacking a concept, a skill, or classroom expectations.","steps":["Draw the Y; label the three zones.","Brainstorm each zone for the topic.","Display the chart and revisit it during the unit."],"why":"Multi-sensory description makes abstract expectations concrete and checkable."},
+  {"title":"Lotus Diagram","type":"Graphic Organiser","icon":"🪷","prep":"Low prep","time":"10–20 min","phase":"Consolidation","desc":"A 3×3 grid with the topic at the centre and eight related ideas around it — each of which can bloom into its own grid.","steps":["Topic in the centre square.","Fill the eight surrounding squares with subtopics.","Optional: expand one subtopic into its own lotus."],"why":"The fixed eight-cell structure pushes students past their first two or three easy ideas."},
+  {"title":"Ripple Effect","type":"Graphic Organiser","icon":"🌊","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"An event at the centre with expanding rings for short-, medium-, and long-term consequences. Perfect for history, science, and literature.","steps":["Event in the centre.","Ring 1: immediate effects. Ring 2: medium-term. Ring 3: long-term.","Draw arrows where consequences cause each other."],"why":"Visualising chains of consequence builds causal reasoning beyond single cause–effect pairs."},
+  {"title":"Cornell Notes","type":"Graphic Organiser","icon":"📓","prep":"Low prep","time":"Ongoing","phase":"Practice","desc":"Notes on the right, cue questions on the left, summary at the bottom. The layout that turns note-taking into a built-in revision system.","steps":["Take notes in the right column during input.","Afterwards, write cue questions in the left column.","Cover the notes; answer the cues from memory.","Summarise the page in 2–3 sentences at the bottom."],"why":"The cue column converts passive notes into a self-testing tool — retrieval built into revision."},
+  {"title":"Parts–Purpose–Complexities","type":"Graphic Organiser","icon":"🧩","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Analyse anything — an object, system, text, or organism — through three lenses: its parts, their purposes, and its complexities.","steps":["Choose the object of study.","List its parts, then each part's purpose.","Identify complexities: interactions, tensions, unknowns."],"why":"The routine scaffolds systems thinking — moving from components to relationships."},
+  {"title":"Flowchart","type":"Graphic Organiser","icon":"⬇️","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Students map a process as boxes and arrows, including decision points. Then a partner 'runs' the flowchart to find missing steps.","steps":["Students chart the process from memory.","Partner traces the chart step by step, following it literally.","Gaps and ambiguities are marked and fixed."],"why":"Having someone else execute your flowchart mercilessly exposes fuzzy thinking."},
+
+  // ---- Discussion & collaboration ----
+  {"title":"Human Continuum","type":"Discussion","icon":"↔️","prep":"No prep","time":"10–20 min","phase":"Any","desc":"An imaginary line runs across the room from 'strongly agree' to 'strongly disagree'. Students stand where their opinion sits — and can move as arguments land.","steps":["Announce the statement and the line's poles.","Students position themselves along the continuum.","Sample voices from different points.","Invite movement: 'If an argument shifted you, walk.'"],"why":"A continuum reveals nuance that binary votes hide, and moving publicly models intellectual humility."},
+  {"title":"Three A's — Agree, Argue, Aha","type":"Discussion","icon":"🅰️","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"After reading or viewing, students record one thing they agree with, one they'd argue with, and one aha moment — then discuss in triads.","steps":["Students note an Agree, an Argue, and an Aha.","Triads share one of each in turn.","Each triad reports its best Argue to the class."],"why":"The three lenses guarantee both critical and appreciative engagement with any text."},
+  {"title":"Perspectives Analysis","type":"Discussion","icon":"👓","prep":"Low prep","time":"20+ min","phase":"Practice","desc":"Groups analyse the same issue from assigned stakeholder perspectives, then compare: where do the perspectives collide, and why?","steps":["Assign each group a stakeholder perspective.","Groups build that stakeholder's case.","Groups present; class maps agreements and collisions.","Debrief: what does each perspective miss?"],"why":"Assigned perspectives free students to explore views they don't hold — the root of empathy and argument skill."},
+  {"title":"Reciprocal Teaching","type":"Discussion","icon":"🔁","prep":"Low prep","time":"20+ min","phase":"Practice","desc":"In groups of four, students rotate through four roles while working through a text: summariser, questioner, clarifier, and predictor.","steps":["Assign roles: summarise, question, clarify, predict.","Read a chunk; each role contributes in turn.","Rotate roles for the next chunk.","Continue through the text."],"why":"The four roles externalise what skilled readers do internally — until students internalise them too."},
+  {"title":"Concept Attainment","type":"Discussion","icon":"💡","prep":"Medium prep","time":"10–20 min","phase":"Warm Up","desc":"Show 'yes' and 'no' examples of a mystery concept one pair at a time. Students hypothesise the rule, test it against new examples, and refine.","steps":["Present yes/no example pairs one at a time.","Students hypothesise the concept silently, then in pairs.","Test hypotheses against new examples.","Name the concept and its critical attributes."],"why":"Inducing a concept from examples produces deeper definitions than being told one."},
+  {"title":"PMI — Plus, Minus, Interesting","type":"Discussion","icon":"➕","prep":"No prep","time":"5–10 min","phase":"Any","desc":"A rapid evaluation scaffold: list the pluses, the minuses, and the genuinely interesting points of any idea, decision, or design.","steps":["Present the idea to evaluate.","Columns: Plus, Minus, Interesting — fill each in turn.","Only after all columns: overall judgement."],"why":"Separating evaluation into phases prevents the first impression from doing all the thinking."},
+  {"title":"Which One Doesn't Belong?","type":"Discussion","icon":"🧐","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"Show four items where every item could be the odd one out for a different reason. Students must argue a case — there is no single right answer.","steps":["Display four related items.","Students pick the odd one out and justify.","Collect a justification for each item.","Celebrate the most inventive valid reasoning."],"why":"Multiple defensible answers shift attention from being right to reasoning well."},
+  {"title":"Gallery Walk","type":"Discussion","icon":"🖼️","prep":"Medium prep","time":"20+ min","phase":"Consolidation","desc":"Student work or prompts are posted around the room. Groups rotate, leaving sticky-note comments, questions, and connections at each station.","steps":["Post work or prompts at stations.","Groups rotate on a timer, leaving comments.","Groups return to their own station to read feedback.","Debrief patterns across the room."],"why":"Every student engages with every piece of work, and feedback multiplies beyond what one teacher can give."},
+  {"title":"Jigsaw","type":"Discussion","icon":"🧷","prep":"Medium prep","time":"20+ min","phase":"Practice","desc":"Each home-group member masters a different chunk in an expert group, then returns to teach it. Everyone is essential; no one can coast.","steps":["Split content into equal chunks.","Expert groups master one chunk each.","Experts return to home groups and teach their chunk.","Quiz the whole class on all chunks."],"why":"Teaching others is among the most effective ways to learn — and interdependence drives accountability."},
+  {"title":"Partners A & B","type":"Discussion","icon":"🗣️","prep":"No prep","time":"5–10 min","phase":"Any","desc":"Structured pair talk: partner A speaks for a set time while B only listens, then they swap. No interruptions, no passengers.","steps":["Pairs label themselves A and B.","A speaks for 60 seconds; B listens silently.","Swap: B speaks, A listens.","B summarises A's point (and vice versa) before sharing out."],"why":"Timed turns guarantee both students produce language, and summarising enforces real listening."},
+
+  // ---- Games ----
+  {"title":"Hot Potato","type":"Game","icon":"🥔","prep":"No prep","time":"5–10 min","phase":"Practice","desc":"Pass an object while music plays; when it stops, the holder answers a retrieval question. Silly, fast, and full of retrieval reps.","steps":["Pass the 'potato' while music plays.","Music stops: holder answers a question.","Class verifies; play continues.","Keep questions short so rounds stay fast."],"why":"The game format disguises what is essentially rapid-fire retrieval practice."},
+  {"title":"Two Truths and a Lie","type":"Game","icon":"🤥","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Students write two true statements and one false statement about the topic. Partners hunt the lie — and must justify their pick.","steps":["Each student writes two truths and one lie about the topic.","Partners exchange and identify the lie, with reasons.","Authors reveal; discuss the most convincing lies."],"why":"Crafting a plausible lie requires knowing precisely where understanding usually breaks down."},
+  {"title":"Mini Jeopardy","type":"Game","icon":"🏁","prep":"Medium prep","time":"20+ min","phase":"Consolidation","desc":"A quiz board with categories and point values. Teams choose questions strategically — higher points mean older or harder material.","steps":["Build a grid: 4 categories × 4 values.","Teams pick cells and answer to score.","Require team conferring before answers.","Track scores; review missed questions after."],"why":"Categories and stakes add strategy to retrieval, and teams surface reasoning aloud."},
+  {"title":"Pop-Up Processing","type":"Game","icon":"🎪","prep":"No prep","time":"5–10 min","phase":"Any","desc":"When you call 'pop up!', students stand and share one takeaway with a neighbour, then sit. Randomised mini-summaries throughout the lesson.","steps":["Teach the routine: 'Pop up!' = stand and share.","Deploy at natural pause points.","Occasionally sample: 'What did your partner say?'"],"why":"Distributed micro-summaries beat one big summary at the end — and standing resets attention."},
+  {"title":"Numbered Heads Together","type":"Game","icon":"🔢","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Teams number off 1–4. Pose a question; teams make sure everyone can answer; then call a random number to respond for the team.","steps":["Teams number off 1–4.","Pose the question; teams confer until all can answer.","Roll or call a number; that student answers.","Score team points for quality answers."],"why":"Because no one knows who'll be called, the team's job becomes teaching its weakest link — positive interdependence."},
+
+  // ---- Writing to learn ----
+  {"title":"N-Word Summary","type":"Writing","icon":"🔡","prep":"No prep","time":"5–10 min","phase":"Plenary","desc":"Summarise the lesson in exactly N words — say, 15. The constraint forces ruthless prioritisation of what mattered most.","steps":["Set the word count (e.g. exactly 15 words).","Students draft, count, and revise to hit it.","Compare summaries: what did everyone keep?"],"why":"Compression demands deciding what is essential — the heart of summarising."},
+  {"title":"Sentence–Phrase–Word","type":"Writing","icon":"📌","prep":"No prep","time":"5–10 min","phase":"Consolidation","desc":"From a text, students select one sentence, one phrase, and one word that captured something essential — then explain their choices.","steps":["Students choose a sentence, a phrase, and a word.","In groups, share and justify each selection.","Notice patterns: what did the group converge on?"],"why":"Selecting and justifying fragments drives close re-reading with a personal stake."},
+  {"title":"Exit Tweet & Hashtags","type":"Writing","icon":"🐦","prep":"No prep","time":"< 5 min","phase":"Plenary","desc":"Summarise today's lesson as a tweet — 140 characters plus three hashtags that tag the big ideas.","steps":["Students draft their 140-character summary.","Add three hashtags for the key concepts.","Share the wittiest and the most precise."],"why":"The format is playful, but character limits force the same prioritisation as formal summarising."},
+  {"title":"Headlines","type":"Writing","icon":"📰","prep":"No prep","time":"< 5 min","phase":"Plenary","desc":"Students write a newspaper headline capturing the heart of today's learning. Compare headlines: what did each writer decide was the story?","steps":["'Write the headline for today's lesson.'","Share several aloud.","Discuss: what did different headlines emphasise?"],"why":"Headline-writing distils the core idea and reveals what each student took as the main point."},
+  {"title":"Caption This","type":"Writing","icon":"💭","prep":"Low prep","time":"5–10 min","phase":"Any","desc":"Show an image from the topic; students write an accurate, content-rich caption — or a speech bubble for someone in the scene.","steps":["Display a topic-related image.","Students write a caption using key vocabulary.","Vote: most accurate and most creative captions."],"why":"Captioning binds vocabulary to imagery — dual coding in a two-minute task."},
+  {"title":"ABC Graffiti","type":"Writing","icon":"🔠","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Alone or in teams, students find a topic-related word or idea for every letter of the alphabet. X is always the fun one.","steps":["Post the alphabet or hand out an A–Z sheet.","Teams fill letters with topic-related terms.","Allow creative stretches, if justified.","Compare boards; award niche vocabulary."],"why":"The alphabet forces retrieval beyond the first easy associations into the long tail of the topic."},
+  {"title":"Colour–Symbol–Image","type":"Writing","icon":"🎨","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Students represent the essence of a topic three ways: a colour, a symbol, and an image — each with a short written justification.","steps":["Choose a colour that captures the idea; justify it.","Design a symbol; justify it.","Sketch an image; justify it.","Share in triads: same topic, different representations."],"why":"Metaphorical representation requires distilling the concept's core — the justification is where the thinking shows."},
+  {"title":"Do-It-Yourself Dictionary","type":"Writing","icon":"📖","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Students build their own dictionary entries for key terms: a definition in their own words plus an original example sentence.","steps":["Assign 2–3 key terms per student.","Write own-words definitions and example sentences.","Peer-check: does the example truly demonstrate the meaning?","Compile into a class glossary."],"why":"Generating definitions and examples beats copying them — generation is a memory multiplier."},
+
+  // ---- Study skills ----
+  {"title":"Read, Cover, Write, Check","type":"Study Skill","icon":"📄","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"The classic self-testing loop: read a section, cover it, write what you remember, check against the original. Repeat until solid.","steps":["Read a short section attentively.","Cover it completely.","Write everything you remember.","Uncover, check, mark gaps — repeat on the gaps."],"why":"It converts re-reading (weak) into retrieval practice (strong) with zero materials."},
+  {"title":"Cheat Sheet","type":"Study Skill","icon":"🗒️","prep":"No prep","time":"20+ min","phase":"Consolidation","desc":"Students design one index card of notes 'allowed' in the test. Designing the card is the revision — sometimes collect the cards before the test anyway.","steps":["Announce a one-card 'cheat sheet' allowance.","Students distil the unit onto the card.","Peer-compare: what did others prioritise?","Optional twist: collect cards before testing."],"why":"Deciding what deserves space on the card forces prioritisation, organisation, and compression — deep processing disguised as permission to cheat."},
+  {"title":"3-2-1","type":"Study Skill","icon":"🥉","prep":"No prep","time":"5–10 min","phase":"Plenary","desc":"Three things you learned, two questions or connections, one thing you found interesting or surprising. A flexible closing routine.","steps":["Students complete the 3-2-1 stems.","Share the 2s (questions) with the class.","Use unanswered questions to open the next lesson."],"why":"The countdown structure scaffolds reflection from recall up to curiosity."},
+  {"title":"Chunking","type":"Study Skill","icon":"🍫","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Teach students to break long content into meaningful chunks, name each chunk, and learn chunk by chunk with self-testing between.","steps":["Divide the material into 3–5 meaningful chunks.","Name each chunk with a memorable label.","Learn one chunk; self-test; only then move on.","Finish by self-testing across all chunks."],"why":"Working memory is small; chunking respects its limits and builds retrieval structure."},
+  {"title":"Sketchnoting","type":"Study Skill","icon":"🖍️","prep":"No prep","time":"Ongoing","phase":"Practice","desc":"Notes that mix drawings, arrows, containers, and words. Teach a small visual vocabulary first, then let students develop their own style.","steps":["Teach basic elements: containers, arrows, stick figures, emphasis.","Model sketchnoting a short input.","Students sketchnote the next section.","Gallery: borrow techniques from each other."],"why":"Combining visual and verbal encoding (dual coding) strengthens memory and reveals structure."},
+  {"title":"Memory Palace","type":"Study Skill","icon":"🏰","prep":"No prep","time":"20+ min","phase":"Practice","desc":"Students place items to remember at locations along a familiar route (their home, walk to school), then retrieve by mentally walking the route.","steps":["Choose a familiar route with 8–10 distinct stops.","Place one item at each stop with a vivid image.","Mentally walk the route to rehearse.","Test: recite items forwards and backwards."],"why":"The method of loci exploits our powerful spatial memory to anchor abstract content."},
+
+  // ---- Thinking routines ----
+  {"title":"Connect, Extend, Challenge","type":"Thinking Routine","icon":"🪢","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"After new input, students record how it connects to what they knew, how it extends their thinking, and what still challenges or puzzles them.","steps":["Connect: 'How does this fit what you already knew?'","Extend: 'What new directions did it push your thinking?'","Challenge: 'What is still puzzling or unresolved?'","Share challenges; keep them visible for the unit."],"why":"The routine makes integration of new knowledge explicit instead of hoping it happens."},
+  {"title":"What Makes You Say That?","type":"Thinking Routine","icon":"🤔","prep":"No prep","time":"Ongoing","phase":"Any","desc":"A two-question interpretation routine: What's going on? and What do you see (or know) that makes you say that? Evidence becomes the classroom habit.","steps":["Student makes a claim or interpretation.","Follow with: 'What makes you say that?'","Student cites their evidence.","Use relentlessly until students pre-empt the question."],"why":"Routinely asking for evidence builds the reasoning disposition at the heart of every discipline."},
+  {"title":"Question Starts","type":"Thinking Routine","icon":"❔","prep":"No prep","time":"5–10 min","phase":"Warm Up","desc":"Students brainstorm a dozen questions about the topic using stems like 'Why…?', 'What if…?', 'How would it change if…?' — then star the most interesting.","steps":["Provide question stems.","Brainstorm 12 questions about the topic.","Star the most interesting three.","Use starred questions to drive inquiry."],"why":"Generating questions primes curiosity and reveals what students perceive as the topic's live edges."},
+  {"title":"Generate, Sort, Connect, Elaborate","type":"Thinking Routine","icon":"🗺️","prep":"No prep","time":"20+ min","phase":"Consolidation","desc":"A concept-mapping routine: generate ideas, sort central from peripheral, connect with labelled lines, and elaborate on the links.","steps":["Generate: list ideas about the topic.","Sort: central ideas near the middle, peripheral outward.","Connect: draw lines; label each relationship.","Elaborate: extend any idea with detail."],"why":"The staged routine turns vague 'make a mind map' into disciplined knowledge organisation."},
+  {"title":"The Explanation Game","type":"Thinking Routine","icon":"🕵️","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Start with a feature ('I notice that…') and build explanations ('Why is it that way?'). Students propose and test multiple explanations before settling.","steps":["Name a feature: 'I notice that…'","Ask: 'Why is it that way?'","Generate multiple candidate explanations.","Evaluate: which explanation best fits the evidence?"],"why":"Holding several explanations open resists the first-answer trap and models scientific reasoning."},
+  {"title":"Compass Points","type":"Thinking Routine","icon":"🧭","prep":"No prep","time":"10–20 min","phase":"Warm Up","desc":"Evaluate a proposition from four compass directions: E (excited), W (worrisome), N (need to know), S (stance or suggestion).","steps":["Present the idea or proposal.","E: what excites you? W: what worries you?","N: what do you need to know?","S: what is your current stance or suggestion?"],"why":"The compass separates emotion, risk, information needs, and judgement — a template for evaluating any proposal."},
+  {"title":"Tug of War","type":"Thinking Routine","icon":"🪢","prep":"Low prep","time":"10–20 min","phase":"Practice","desc":"Map a dilemma as a rope: 'tugs' (reasons) pull toward each side, stronger tugs placed nearer the ends. Where does the rope settle?","steps":["State the dilemma; draw the rope.","Generate tugs for each side.","Place tugs by strength along the rope.","Discuss: what would change the balance?"],"why":"Physically weighting reasons teaches that arguments differ in strength, not just number."},
+  {"title":"Fast Idea Generator","type":"Thinking Routine","icon":"⚡","prep":"No prep","time":"5–10 min","phase":"Practice","desc":"Stretch an idea through provocations: exaggerate it, invert it, shrink it, combine it. Quantity first, judgement later.","steps":["State the starting idea.","Apply provocations: exaggerate, invert, shrink, combine.","Generate without judging (5 minutes).","Only then evaluate for promise."],"why":"Deferring judgement measurably increases both the quantity and originality of ideas."},
+  {"title":"Levels of Questions","type":"Thinking Routine","icon":"🪜","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Students write questions about the topic at three levels — factual, conceptual, debatable — and learn to tell them apart.","steps":["Teach the three levels with examples.","Students write one question per level.","Swap: partners classify each other's questions.","Use the debatable ones for discussion."],"why":"Recognising question types teaches students what kind of thinking each question demands."},
+  {"title":"Circle of Viewpoints","type":"Discussion","icon":"⭕","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Brainstorm the viewpoints around an issue, then each student speaks from inside one: 'I am thinking of X from the viewpoint of Y…'","steps":["Brainstorm all stakeholders and perspectives.","Each student adopts one viewpoint.","Speak in role: 'From this viewpoint, I think… I question…'","Debrief: which viewpoints changed your thinking?"],"why":"Speaking from inside a perspective goes deeper than describing it from outside."},
+  {"title":"Step Inside","type":"Discussion","icon":"👟","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Students step inside a person, object, or element of a system and speak as it: what can it perceive, know, and care about?","steps":["Choose an entity in the topic (person, object, element).","'What can it perceive? What might it know? What does it care about?'","Write or speak in first person as the entity.","Share and compare entities."],"why":"Personification builds deep engagement with how a system looks from inside its parts."},
+  {"title":"Fishbowl","type":"Discussion","icon":"🐟","prep":"Low prep","time":"20+ min","phase":"Practice","desc":"An inner circle discusses while an outer circle observes with a listening task, then circles swap. Discussion and metacognition about discussion.","steps":["Inner circle discusses the question.","Outer circle observes with a focus (evidence use, questions asked…).","Swap circles and continue.","Debrief content and discussion quality."],"why":"Observing discussion with a lens teaches discussion skills that participating alone doesn't."},
+  {"title":"Big Paper — Silent Conversation","type":"Discussion","icon":"🤫","prep":"Low prep","time":"10–20 min","phase":"Practice","desc":"Groups 'discuss' a prompt entirely in writing on a large sheet — no talking. Students respond to the text and to each other's comments in silence.","steps":["Prompt in the middle of a large sheet.","Silent written conversation: comment, question, connect.","Groups rotate to other papers and join in writing.","Debrief aloud at the end."],"why":"Silence equalises airtime and gives thinkers processing time that oral discussion denies."},
+  {"title":"Save the Last Word for Me","type":"Discussion","icon":"🎤","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"A student shares a chosen quotation; others respond first; the chooser speaks last, explaining why they picked it.","steps":["Students select a meaningful quotation from the text.","In triads: A shows the quote; B and C respond first.","A gets the last word: why they chose it.","Rotate so everyone's quote is discussed."],"why":"Hearing others' reactions before explaining your choice deepens and often changes the original thinking."},
+  {"title":"Café Conversations","type":"Discussion","icon":"☕","prep":"Medium prep","time":"20+ min","phase":"Practice","desc":"Small tables discuss different aspects of a topic; students migrate between tables carrying ideas with them, cross-pollinating conversations.","steps":["Set tables, each with a sub-question and a host.","Rounds of discussion; students move tables between rounds.","Hosts summarise for each new group.","Whole-class harvest of the biggest ideas."],"why":"Idea migration exposes every student to multiple threads and forces re-articulation at each table."},
+  {"title":"Text-to-Text, Self, World","type":"Discussion","icon":"🌐","prep":"No prep","time":"10–20 min","phase":"Consolidation","desc":"Students connect the text to another text, to their own life, and to the wider world — then evaluate which connection is most illuminating.","steps":["Make three connections: text, self, world.","Share in pairs; pick the most illuminating.","Discuss: what makes a connection deep vs. surface?"],"why":"Personal and intertextual connections anchor new content in existing memory networks."},
+  {"title":"Ladder of Feedback","type":"Checking","icon":"🪜","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"A four-rung peer feedback protocol: clarify, value, raise concerns, suggest. In that order, every time.","steps":["Clarify: ask questions to understand the work.","Value: name specific strengths.","Concerns: raise honest worries respectfully.","Suggest: offer concrete improvements."],"why":"The fixed sequence makes feedback safe and complete — concerns land better after genuine valuing."},
+  {"title":"I Used to Think, Now I Think","type":"Checking","icon":"💭","prep":"No prep","time":"5–10 min","phase":"Plenary","desc":"Students complete both stems about the topic. The gap between the two sentences is the learning, made visible.","steps":["Students write: 'I used to think…'","Then: 'Now I think…'","Share pairs of sentences aloud.","Discuss what caused the shifts."],"why":"Documenting belief change builds metacognition and shows students that understanding evolves."},
+  {"title":"TAG Feedback","type":"Checking","icon":"🏷️","prep":"No prep","time":"5–10 min","phase":"Practice","desc":"Peer feedback in three moves: Tell something you liked, Ask a question, Give a suggestion. Simple enough for any age.","steps":["Swap work with a partner.","T: tell one specific thing you liked.","A: ask one genuine question.","G: give one concrete suggestion."],"why":"The acronym scaffolds balanced feedback that students can deliver and receive without drama."},
+  {"title":"Glow and Grow","type":"Checking","icon":"🌟","prep":"No prep","time":"5–10 min","phase":"Plenary","desc":"For any piece of work: one glow (a specific strength) and one grow (a specific next step). Works for peer, self, and teacher feedback.","steps":["Identify one glow: specific and evidence-based.","Identify one grow: specific and actionable.","Student records both and acts on the grow next draft."],"why":"Pairing every critique with a named strength keeps feedback motivating and actionable."},
+  {"title":"RAFTS","type":"Writing","icon":"📮","prep":"Low prep","time":"20+ min","phase":"Practice","desc":"A writing frame that fixes Role, Audience, Format, Topic, and a Strong verb — e.g. 'You are a red blood cell (R) writing a complaint letter (F) to the heart (A)…'","steps":["Set or choose: Role, Audience, Format, Topic, Strong verb.","Plan how the role and audience change the writing.","Draft the piece in role.","Share; discuss how constraints shaped choices."],"why":"Perspective and audience constraints demand deep content knowledge worn lightly."},
+  {"title":"PEEL Paragraph","type":"Writing","icon":"🍊","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Structured analytical paragraphs: Point, Evidence, Explain, Link. Scaffold it heavily at first, then fade the scaffold.","steps":["Point: state the claim.","Evidence: quote or cite support.","Explain: analyse how the evidence proves the point.","Link: connect back to the question."],"why":"An explicit paragraph grammar frees working memory for the actual analysis."},
+  {"title":"Empathy Map","type":"Graphic Organiser","icon":"❤️","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Four quadrants — says, thinks, does, feels — for analysing a character, historical figure, or stakeholder from the inside.","steps":["Choose the person or character.","Fill the quadrants: says, thinks, does, feels.","Note tensions (says one thing, does another).","Use the map to predict or explain behaviour."],"why":"Separating observable words and actions from inferred thoughts and feelings teaches disciplined inference."},
+  {"title":"SWOT Analysis","type":"Graphic Organiser","icon":"📈","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Strengths, weaknesses, opportunities, threats — the business classic works for characters' decisions, historical strategies, design proposals, and study plans.","steps":["Define the subject of the analysis.","Fill: internal strengths and weaknesses.","Fill: external opportunities and threats.","Draw a conclusion: what should the subject do?"],"why":"SWOT forces analysis across internal/external and positive/negative dimensions at once."},
+  {"title":"KWL Chart","type":"Graphic Organiser","icon":"📋","prep":"No prep","time":"Ongoing","phase":"Any","desc":"Three columns across a unit: what we Know, what we Want to know, and — as learning happens — what we Learned.","steps":["K: brainstorm current knowledge.","W: list questions worth answering.","Teach the unit, returning to the chart.","L: record what was learned; check the W column."],"why":"KWL bookends a unit with activation and reflection, making progress visible to students."},
+  {"title":"Reporter's Notebook","type":"Graphic Organiser","icon":"🗞️","prep":"No prep","time":"10–20 min","phase":"Practice","desc":"Two columns: facts on the left, feelings and opinions on the right. Students learn to separate what happened from what people made of it.","steps":["Draw the two columns.","Sort information: fact or feeling/opinion?","Discuss the tricky borderline cases.","Write a 'report' using facts, quoting opinions."],"why":"Distinguishing fact from opinion is foundational media literacy — this makes the distinction physical."},
+  {"title":"Zoom In","type":"Previewing","icon":"🔎","prep":"Low prep","time":"5–10 min","phase":"Warm Up","desc":"Reveal an intriguing image a portion at a time. Students hypothesise after each reveal and revise as more appears.","steps":["Cover an image; reveal one section.","Students hypothesise: 'What is this?'","Reveal more; revise hypotheses with reasons.","Full reveal; connect to the new topic."],"why":"Incremental evidence and revision model how conclusions should change as information grows."},
+  {"title":"3-2-1 Bridge","type":"Transfer","icon":"🌁","prep":"No prep","time":"10–20 min","phase":"Any","desc":"Before the topic: 3 words, 2 questions, 1 analogy. After learning: repeat. Then bridge — students explain how and why their responses changed.","steps":["Before: 3 words, 2 questions, 1 analogy about the topic.","Teach the content.","After: repeat the 3-2-1.","Bridge: 'How did your responses change, and why?'"],"why":"Comparing before/after snapshots makes conceptual change itself the object of reflection."},
+];
+
+// ---- filters & rendering ----
+const ORDER = {
+  type: ["Low-Stakes Retrieval","Retrieval","Previewing","Checking","Engagement","Transfer","Thinking Routine","Discussion","Game","Writing","Graphic Organiser","Study Skill"],
+  prep: ["No prep","Low prep","Medium prep"],
+  time: ["< 5 min","5–10 min","10–20 min","20+ min","Ongoing"],
+  phase: ["Warm Up","Practice","Consolidation","Plenary","Any"]
+};
+const state = { q:"", type:new Set(), prep:new Set(), time:new Set(), phase:new Set() };
+
+function buildPills(key){
+  const wrap = document.getElementById('pills-'+key);
+  ORDER[key].forEach(val=>{
+    const b = document.createElement('button');
+    b.className='pill'; b.type='button'; b.textContent=val; b.setAttribute('aria-pressed','false');
+    b.addEventListener('click', ()=>{
+      if(state[key].has(val)) state[key].delete(val); else state[key].add(val);
+      b.classList.toggle('on'); b.setAttribute('aria-pressed', b.classList.contains('on'));
+      render();
+    });
+    wrap.appendChild(b);
+  });
+}
+['type','prep','time','phase'].forEach(buildPills);
+
+const grid = document.getElementById('grid');
+ACTIVITIES.forEach((a,i)=>{
+  const card = document.createElement('article');
+  card.className='card'; card.dataset.i=i;
+  card.innerHTML = `
+    <div class="iconband"><span class="em" aria-hidden="true">${a.icon||'✨'}</span><h3>${a.title}</h3></div>
+    <div class="cardbody">
+      <div class="tags">
+        <span class="tag">${a.type}</span>
+        <span class="tag gold">${a.prep}</span>
+        <span class="tag">${a.time}</span>
+        <span class="tag">${a.phase}</span>
+        ${a.age && a.age!=="All ages" ? `<span class="tag">${a.age}</span>` : ``}
+      </div>
+      <p class="desc">${a.desc}</p>
+      ${a.steps && a.steps.length ? `<details><summary>How to run it</summary><ol>${a.steps.map(s=>`<li>${s}</li>`).join('')}</ol></details>` : ``}
+      ${a.why ? `<div class="why"><b>Why it works:</b> ${a.why}</div>` : ``}
+    </div>`;
+  grid.appendChild(card);
+});
+const cards = [...grid.children];
+
+const searchEl = document.getElementById('search');
+const countEl = document.getElementById('count');
+const emptyEl = document.getElementById('empty');
+const clearBtn = document.getElementById('clearAll');
+
+function matches(a){
+  if(state.type.size && !state.type.has(a.type)) return false;
+  if(state.prep.size && !state.prep.has(a.prep)) return false;
+  if(state.time.size && !state.time.has(a.time)) return false;
+  if(state.phase.size && !state.phase.has(a.phase)) return false;
+  if(state.q){
+    const hay = (a.title+' '+a.type+' '+a.desc+' '+(a.why||'')+' '+(a.age||'')+' '+(a.steps||[]).join(' ')).toLowerCase();
+    if(!hay.includes(state.q)) return false;
+  }
+  return true;
+}
+function render(){
+  let shown = 0;
+  cards.forEach((c,i)=>{
+    const ok = matches(ACTIVITIES[i]);
+    c.style.display = ok ? '' : 'none';
+    if(ok) shown++;
+  });
+  countEl.textContent = shown + ' of ' + ACTIVITIES.length + ' activities';
+  emptyEl.style.display = shown ? 'none' : 'block';
+  const anyFilter = state.q || state.type.size || state.prep.size || state.time.size || state.phase.size;
+  clearBtn.classList.toggle('show', !!anyFilter);
+}
+searchEl.addEventListener('input', e=>{
+  state.q = e.target.value.trim().toLowerCase();
+  if(window.__mode==='atl'){ atlState.q = state.q; atlRender(); } else { render(); }
+});
+clearBtn.addEventListener('click', ()=>{
+  state.q=''; searchEl.value='';
+  ['type','prep','time','phase'].forEach(k=>{ state[k].clear(); });
+  document.querySelectorAll('.pill.on:not(.bankpill)').forEach(p=>{ p.classList.remove('on'); p.setAttribute('aria-pressed','false'); });
+  if(typeof atlState!=="undefined"){ atlState.q=''; atlState.cl.clear(); atlState.rty.clear(); }
+  if(window.__mode==='atl'){ atlRender(); } else { render(); }
+});
+render();
+</script>
+
+<script>
+window.__mode = 'tl';
+const ATL_DATA = {
+  "clusters": [
+    {"cat":"Communication","name":"Communication skills","desc":"Exchanging thoughts, messages and information effectively through interaction, and reading, writing and using language to gather and communicate information.","subskills":[
+      {"name":"Give and receive meaningful feedback","resources":[
+        {"t":"Ladder of Feedback","ty":"Activity","bank":true},
+        {"t":"TAG Feedback","ty":"Activity","bank":true},
+        {"t":"Glow and Grow","ty":"Activity","bank":true},
+        {"t":"Austin's Butterfly — the power of critique (video)","ty":"Video"}
+      ]},
+      {"name":"Use intercultural understanding to interpret communication","resources":[
+        {"t":"Circle of Viewpoints","ty":"Activity","bank":true},
+        {"t":"Café Conversations","ty":"Activity","bank":true}
+      ]},
+      {"name":"Interpret and use effectively modes of non-verbal communication","resources":[
+        {"t":"Sketch & Tell","ty":"Activity","bank":true},
+        {"t":"Sketchnoting","ty":"Activity","bank":true},
+        {"t":"Caption This","ty":"Activity","bank":true}
+      ]},
+      {"name":"Negotiate ideas and knowledge with peers and teachers","resources":[
+        {"t":"Human Continuum","ty":"Activity","bank":true},
+        {"t":"Tug of War","ty":"Activity","bank":true},
+        {"t":"Fishbowl","ty":"Activity","bank":true},
+        {"t":"Numbered Heads Together","ty":"Activity","bank":true}
+      ]},
+      {"name":"Participate in, and contribute to, digital social media networks","resources":[
+        {"t":"Exit Tweet & Hashtags","ty":"Activity","bank":true},
+        {"t":"Common Sense Education — digital citizenship lessons","ty":"Article/Website"}
+      ]},
+      {"name":"Collaborate with peers and experts using a variety of digital environments and media","resources":[
+        {"t":"Big Paper — Silent Conversation (works on shared docs)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Share ideas with multiple audiences using a variety of digital environments and media","resources":[
+        {"t":"Headlines","ty":"Activity","bank":true},
+        {"t":"RAFTS","ty":"Activity","bank":true}
+      ]},
+      {"name":"Read critically and for comprehension","resources":[
+        {"t":"Reciprocal Teaching","ty":"Activity","bank":true},
+        {"t":"Sentence–Phrase–Word","ty":"Activity","bank":true},
+        {"t":"Three A's — Agree, Argue, Aha","ty":"Activity","bank":true},
+        {"t":"Reporter's Notebook","ty":"Activity","bank":true}
+      ]},
+      {"name":"Read a variety of sources for information and for pleasure","resources":[
+        {"t":"Save the Last Word for Me","ty":"Activity","bank":true},
+        {"t":"Text-to-Text, Self, World","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make inferences and draw conclusions","resources":[
+        {"t":"See-Think-Wonder","ty":"Activity","bank":true},
+        {"t":"The Explanation Game","ty":"Activity","bank":true},
+        {"t":"Zoom In","ty":"Activity","bank":true},
+        {"t":"What Makes You Say That?","ty":"Activity","bank":true}
+      ]},
+      {"name":"Use and interpret a range of discipline-specific terms and symbols","resources":[
+        {"t":"Frayer Model","ty":"Activity","bank":true},
+        {"t":"Do-It-Yourself Dictionary","ty":"Activity","bank":true},
+        {"t":"Word Splash","ty":"Activity","bank":true}
+      ]},
+      {"name":"Write for different purposes","resources":[
+        {"t":"RAFTS","ty":"Activity","bank":true},
+        {"t":"PEEL Paragraph","ty":"Activity","bank":true},
+        {"t":"N-Word Summary","ty":"Activity","bank":true},
+        {"t":"Headlines","ty":"Activity","bank":true}
+      ]},
+      {"name":"Take effective notes in class","resources":[
+        {"t":"Cornell Notes","ty":"Activity","bank":true},
+        {"t":"Sketchnoting","ty":"Activity","bank":true},
+        {"t":"Chunking","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make effective summary notes for studying","resources":[
+        {"t":"Cheat Sheet","ty":"Activity","bank":true},
+        {"t":"Concept Map From Memory","ty":"Activity","bank":true},
+        {"t":"3-2-1","ty":"Activity","bank":true}
+      ]},
+      {"name":"Use a variety of organizers for academic writing tasks","resources":[
+        {"t":"PEEL Paragraph","ty":"Activity","bank":true},
+        {"t":"Flowchart","ty":"Activity","bank":true},
+        {"t":"KWL Chart","ty":"Activity","bank":true}
+      ]},
+      {"name":"Paraphrase accurately and concisely","resources":[
+        {"t":"N-Word Summary","ty":"Activity","bank":true},
+        {"t":"Partners A & B (summarise your partner)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Preview and skim texts to build understanding","resources":[
+        {"t":"Anticipation Guide","ty":"Activity","bank":true},
+        {"t":"Word Splash","ty":"Activity","bank":true},
+        {"t":"Question Starts","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Social","name":"Collaboration skills","desc":"Working effectively with others.","subskills":[
+      {"name":"Use social media networks appropriately to build and develop relationships","resources":[
+        {"t":"Common Sense Education — digital citizenship lessons","ty":"Article/Website"}
+      ]},
+      {"name":"Practise empathy","resources":[
+        {"t":"Empathy Map","ty":"Activity","bank":true},
+        {"t":"Step Inside","ty":"Activity","bank":true},
+        {"t":"Circle of Viewpoints","ty":"Activity","bank":true}
+      ]},
+      {"name":"Delegate and share responsibility for decision-making","resources":[
+        {"t":"Jigsaw","ty":"Activity","bank":true},
+        {"t":"Reciprocal Teaching","ty":"Activity","bank":true}
+      ]},
+      {"name":"Help others to succeed","resources":[
+        {"t":"Five-Finger Test (peer teaching)","ty":"Activity","bank":true},
+        {"t":"Numbered Heads Together","ty":"Activity","bank":true}
+      ]},
+      {"name":"Take responsibility for one's own actions","resources":[
+        {"t":"Traffic Light Check","ty":"Activity","bank":true},
+        {"t":"Glow and Grow (self-assessment)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Manage and resolve conflict, and work collaboratively in teams","resources":[
+        {"t":"Ladder of Feedback","ty":"Activity","bank":true},
+        {"t":"Café Conversations","ty":"Activity","bank":true}
+      ]},
+      {"name":"Build consensus","resources":[
+        {"t":"Human Continuum","ty":"Activity","bank":true},
+        {"t":"Four Corners","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make fair and equitable decisions","resources":[
+        {"t":"PMI — Plus, Minus, Interesting","ty":"Activity","bank":true},
+        {"t":"Compass Points","ty":"Activity","bank":true}
+      ]},
+      {"name":"Listen actively to other perspectives and ideas","resources":[
+        {"t":"Partners A & B","ty":"Activity","bank":true},
+        {"t":"Save the Last Word for Me","ty":"Activity","bank":true},
+        {"t":"Fishbowl","ty":"Activity","bank":true}
+      ]},
+      {"name":"Exercise leadership and take on a variety of roles within groups","resources":[
+        {"t":"Reciprocal Teaching","ty":"Activity","bank":true},
+        {"t":"Jigsaw (expert role)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Give and receive meaningful feedback","resources":[
+        {"t":"TAG Feedback","ty":"Activity","bank":true},
+        {"t":"Ladder of Feedback","ty":"Activity","bank":true},
+        {"t":"Spotlight Check","ty":"Activity","bank":true}
+      ]},
+      {"name":"Advocate for one's own rights and needs","resources":[
+        {"t":"Red & Green Discs (signalling for help)","ty":"Activity","bank":true},
+        {"t":"Muddiest & Clearest Point","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Self-management","name":"Organization skills","desc":"Managing time and tasks effectively.","subskills":[
+      {"name":"Plan short- and long-term assignments; meet deadlines","resources":[
+        {"t":"Pomodoro technique — how it works","ty":"Article/Website"},
+        {"t":"Chunking (break tasks into parts)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Create plans to prepare for summative assessments","resources":[
+        {"t":"Cheat Sheet","ty":"Activity","bank":true},
+        {"t":"Retrieval Grid (self-audit)","ty":"Activity","bank":true},
+        {"t":"KWL Chart","ty":"Activity","bank":true}
+      ]},
+      {"name":"Keep and use a weekly planner for assignments","resources":[
+        {"t":"Any calendar/planner app of choice","ty":"Tool/App"}
+      ]},
+      {"name":"Set goals that are challenging and realistic","resources":[
+        {"t":"Glow and Grow (next-step goals)","ty":"Activity","bank":true},
+        {"t":"Five-Finger Test (confidence baseline)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Bring necessary equipment and supplies to class","resources":[
+        {"t":"Class checklist routine (teacher-made)","ty":"Other"}
+      ]},
+      {"name":"Use appropriate strategies for organizing complex information","resources":[
+        {"t":"Lotus Diagram","ty":"Activity","bank":true},
+        {"t":"Generate, Sort, Connect, Elaborate","ty":"Activity","bank":true},
+        {"t":"Cornell Notes","ty":"Activity","bank":true},
+        {"t":"Flowchart","ty":"Activity","bank":true}
+      ]},
+      {"name":"Understand and use sensory learning preferences","resources":[
+        {"t":"Sketchnoting (visual)","ty":"Activity","bank":true},
+        {"t":"Choral Response (auditory)","ty":"Activity","bank":true},
+        {"t":"Four Corners (kinaesthetic)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Select and use technology effectively and productively","resources":[
+        {"t":"Live Poll (polling tools)","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Self-management","name":"Affective skills","desc":"Managing state of mind — mindfulness, perseverance, emotional management, self-motivation, and resilience.","subskills":[
+      {"name":"Practise focus and concentration","resources":[
+        {"t":"Mindfulness Reset","ty":"Activity","bank":true},
+        {"t":"Movement Brain Break","ty":"Activity","bank":true}
+      ]},
+      {"name":"Practise strategies to develop mental quietness","resources":[
+        {"t":"Mindfulness Reset","ty":"Activity","bank":true},
+        {"t":"Smiling Mind — free mindfulness app","ty":"Tool/App"}
+      ]},
+      {"name":"Practise strategies to overcome distractions","resources":[
+        {"t":"Pomodoro technique — how it works","ty":"Article/Website"}
+      ]},
+      {"name":"Demonstrate persistence and perseverance","resources":[
+        {"t":"Hint Cards (attempt before help)","ty":"Activity","bank":true},
+        {"t":"Austin's Butterfly — the power of critique (video)","ty":"Video"}
+      ]},
+      {"name":"Practise delaying gratification","resources":[
+        {"t":"Read, Cover, Write, Check (effort before checking)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Practise 'bouncing back' after adversity, mistakes and failures","resources":[
+        {"t":"Feedback That Connects (errors as data)","ty":"Activity","bank":true},
+        {"t":"I Used to Think, Now I Think","ty":"Activity","bank":true}
+      ]},
+      {"name":"Practise dealing with disappointment and unmet expectations","resources":[
+        {"t":"Glow and Grow","ty":"Activity","bank":true}
+      ]},
+      {"name":"Practise analysing and attributing causes for failure","resources":[
+        {"t":"Feedback That Connects","ty":"Activity","bank":true},
+        {"t":"Muddiest & Clearest Point","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Self-management","name":"Reflection skills","desc":"(Re)considering the process of learning; choosing and using ATL skills.","subskills":[
+      {"name":"Develop new skills, techniques and strategies for effective learning","resources":[
+        {"t":"Flashcards Done Right","ty":"Activity","bank":true},
+        {"t":"Memory Palace","ty":"Activity","bank":true},
+        {"t":"Read, Cover, Write, Check","ty":"Activity","bank":true}
+      ]},
+      {"name":"Identify strengths and weaknesses of personal learning strategies","resources":[
+        {"t":"Traffic Light Check","ty":"Activity","bank":true},
+        {"t":"Five-Finger Test","ty":"Activity","bank":true},
+        {"t":"Muddiest & Clearest Point","ty":"Activity","bank":true}
+      ]},
+      {"name":"Demonstrate flexibility in the selection and use of learning strategies","resources":[
+        {"t":"New Problem, Old Tools","ty":"Activity","bank":true},
+        {"t":"Mixed Question Medley","ty":"Activity","bank":true}
+      ]},
+      {"name":"Try new ATL skills and evaluate their effectiveness","resources":[
+        {"t":"3-2-1 (reflect on a new strategy)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Consider content — what did I learn, what don't I yet understand, what questions do I have?","resources":[
+        {"t":"3-2-1","ty":"Activity","bank":true},
+        {"t":"Exit Ticket","ty":"Activity","bank":true},
+        {"t":"KWL Chart","ty":"Activity","bank":true}
+      ]},
+      {"name":"Consider ATL skills development — what can I already do, how can I share my skills, what will I work on next?","resources":[
+        {"t":"Glow and Grow (skills version)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Consider personal learning strategies — how can I improve, become more efficient, and recognise obstacles?","resources":[
+        {"t":"I Used to Think, Now I Think","ty":"Activity","bank":true},
+        {"t":"Cornell Notes (summary row)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Keep a journal to record reflections","resources":[
+        {"t":"Any journal/notebook routine","ty":"Other"}
+      ]}
+    ]},
+    {"cat":"Research","name":"Information literacy skills","desc":"Finding, interpreting, judging and creating information.","subskills":[
+      {"name":"Collect, record and verify data","resources":[
+        {"t":"Reporter's Notebook","ty":"Activity","bank":true}
+      ]},
+      {"name":"Access information to be informed and inform others","resources":[
+        {"t":"Jigsaw","ty":"Activity","bank":true},
+        {"t":"Gallery Walk","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make connections between various sources of information","resources":[
+        {"t":"Text-to-Text, Self, World","ty":"Activity","bank":true},
+        {"t":"Connect, Extend, Challenge","ty":"Activity","bank":true}
+      ]},
+      {"name":"Collect and analyse data to identify solutions and make informed decisions","resources":[
+        {"t":"SWOT Analysis","ty":"Activity","bank":true},
+        {"t":"PMI — Plus, Minus, Interesting","ty":"Activity","bank":true}
+      ]},
+      {"name":"Process data and report results","resources":[
+        {"t":"Format Flip (data → prose → diagram)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Evaluate and select information sources and digital tools based on their appropriateness to specific tasks","resources":[
+        {"t":"CRAAP test — evaluating sources","ty":"Article/Website"}
+      ]},
+      {"name":"Understand and use technology systems","resources":[
+        {"t":"School digital-skills induction (local)","ty":"Other"}
+      ]},
+      {"name":"Use critical-literacy skills to analyse and interpret media communications","resources":[
+        {"t":"Reporter's Notebook (fact vs opinion)","ty":"Activity","bank":true},
+        {"t":"Prove Me Wrong","ty":"Activity","bank":true}
+      ]},
+      {"name":"Understand and implement intellectual property rights","resources":[
+        {"t":"Creative Commons — licences explained","ty":"Article/Website"}
+      ]},
+      {"name":"Create references and citations, use footnotes/endnotes and construct a bibliography according to recognized conventions","resources":[
+        {"t":"Purdue OWL — citation guides","ty":"Article/Website"}
+      ]},
+      {"name":"Identify primary and secondary sources","resources":[
+        {"t":"Sort It! (source-sorting variant)","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Research","name":"Media literacy skills","desc":"Interacting with media to use and create ideas and information.","subskills":[
+      {"name":"Locate, organize, analyse, evaluate, synthesize and ethically use information from a variety of sources and media","resources":[
+        {"t":"CRAAP test — evaluating sources","ty":"Article/Website"},
+        {"t":"Generate, Sort, Connect, Elaborate","ty":"Activity","bank":true}
+      ]},
+      {"name":"Demonstrate awareness of media interpretations of events and ideas","resources":[
+        {"t":"Perspectives Analysis","ty":"Activity","bank":true},
+        {"t":"Headlines (compare real headlines)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make informed choices about personal viewing experiences","resources":[
+        {"t":"Common Sense Education — digital citizenship lessons","ty":"Article/Website"}
+      ]},
+      {"name":"Understand the impact of media representations and modes of presentation","resources":[
+        {"t":"Caption This (how captions frame images)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Seek a range of perspectives from multiple and varied sources","resources":[
+        {"t":"Circle of Viewpoints","ty":"Activity","bank":true},
+        {"t":"Café Conversations","ty":"Activity","bank":true}
+      ]},
+      {"name":"Communicate information and ideas effectively to multiple audiences using a variety of media and formats","resources":[
+        {"t":"Format Flip","ty":"Activity","bank":true},
+        {"t":"RAFTS","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Thinking","name":"Critical-thinking skills","desc":"Analysing and evaluating issues and ideas.","subskills":[
+      {"name":"Practise observing carefully in order to recognize problems","resources":[
+        {"t":"See-Think-Wonder","ty":"Activity","bank":true},
+        {"t":"Zoom In","ty":"Activity","bank":true},
+        {"t":"Which One Doesn't Belong?","ty":"Activity","bank":true}
+      ]},
+      {"name":"Gather and organize relevant information to formulate an argument","resources":[
+        {"t":"Tug of War","ty":"Activity","bank":true},
+        {"t":"PEEL Paragraph","ty":"Activity","bank":true}
+      ]},
+      {"name":"Recognize unstated assumptions and bias","resources":[
+        {"t":"Prove Me Wrong","ty":"Activity","bank":true},
+        {"t":"Reporter's Notebook","ty":"Activity","bank":true}
+      ]},
+      {"name":"Interpret data","resources":[
+        {"t":"Format Flip","ty":"Activity","bank":true}
+      ]},
+      {"name":"Evaluate evidence and arguments","resources":[
+        {"t":"What Makes You Say That?","ty":"Activity","bank":true},
+        {"t":"Tug of War","ty":"Activity","bank":true}
+      ]},
+      {"name":"Recognize and evaluate propositions","resources":[
+        {"t":"Anticipation Guide","ty":"Activity","bank":true},
+        {"t":"Believe It or Not","ty":"Activity","bank":true}
+      ]},
+      {"name":"Draw reasonable conclusions and generalizations","resources":[
+        {"t":"Concept Attainment","ty":"Activity","bank":true},
+        {"t":"The Explanation Game","ty":"Activity","bank":true}
+      ]},
+      {"name":"Test generalizations and conclusions","resources":[
+        {"t":"Analogy Architects (stress-test)","ty":"Activity","bank":true},
+        {"t":"Concept in Disguise","ty":"Activity","bank":true}
+      ]},
+      {"name":"Revise understanding based on new information and evidence","resources":[
+        {"t":"I Used to Think, Now I Think","ty":"Activity","bank":true},
+        {"t":"Zoom In","ty":"Activity","bank":true}
+      ]},
+      {"name":"Evaluate and manage risk","resources":[
+        {"t":"SWOT Analysis","ty":"Activity","bank":true},
+        {"t":"Compass Points","ty":"Activity","bank":true}
+      ]},
+      {"name":"Formulate factual, topical, conceptual and debatable questions","resources":[
+        {"t":"Levels of Questions","ty":"Activity","bank":true},
+        {"t":"Question Starts","ty":"Activity","bank":true}
+      ]},
+      {"name":"Consider ideas from multiple perspectives","resources":[
+        {"t":"Circle of Viewpoints","ty":"Activity","bank":true},
+        {"t":"Perspectives Analysis","ty":"Activity","bank":true},
+        {"t":"Four Corners","ty":"Activity","bank":true}
+      ]},
+      {"name":"Develop contrary or opposing arguments","resources":[
+        {"t":"Hammer & Nail","ty":"Activity","bank":true},
+        {"t":"Prove Me Wrong","ty":"Activity","bank":true}
+      ]},
+      {"name":"Analyse complex concepts and projects into their constituent parts and synthesize them to create new understanding","resources":[
+        {"t":"Parts–Purpose–Complexities","ty":"Activity","bank":true},
+        {"t":"Lotus Diagram","ty":"Activity","bank":true}
+      ]},
+      {"name":"Propose and evaluate a variety of solutions","resources":[
+        {"t":"Fast Idea Generator","ty":"Activity","bank":true},
+        {"t":"PMI — Plus, Minus, Interesting","ty":"Activity","bank":true}
+      ]},
+      {"name":"Identify obstacles and challenges","resources":[
+        {"t":"Compass Points (W and N points)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Use models and simulations to explore complex systems and issues","resources":[
+        {"t":"PhET Interactive Simulations","ty":"Tool/App"}
+      ]},
+      {"name":"Identify trends and forecast possibilities","resources":[
+        {"t":"Ripple Effect","ty":"Activity","bank":true}
+      ]},
+      {"name":"Troubleshoot systems and applications","resources":[
+        {"t":"Flowchart (trace the process)","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Thinking","name":"Creative-thinking skills","desc":"Generating novel ideas and considering new perspectives.","subskills":[
+      {"name":"Use brainstorming and visual diagrams to generate new ideas and inquiries","resources":[
+        {"t":"Fast Idea Generator","ty":"Activity","bank":true},
+        {"t":"Lotus Diagram","ty":"Activity","bank":true},
+        {"t":"ABC Graffiti","ty":"Activity","bank":true}
+      ]},
+      {"name":"Consider multiple alternatives, including those that might be unlikely or impossible","resources":[
+        {"t":"Would You Rather (Movement)","ty":"Activity","bank":true},
+        {"t":"Fast Idea Generator (invert / exaggerate)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Create novel solutions to authentic problems","resources":[
+        {"t":"Real-World Application Round","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make unexpected or unusual connections between objects and/or ideas","resources":[
+        {"t":"Visual Synectics","ty":"Activity","bank":true},
+        {"t":"Analogy Architects","ty":"Activity","bank":true}
+      ]},
+      {"name":"Design improvements to existing machines, media and technologies","resources":[
+        {"t":"SWOT Analysis (on a product)","ty":"Activity","bank":true}
+      ]},
+      {"name":"Design new machines, media and technologies","resources":[
+        {"t":"Fast Idea Generator","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make guesses, ask 'what if' questions and generate testable hypotheses","resources":[
+        {"t":"Mystery Box","ty":"Activity","bank":true},
+        {"t":"Question Starts ('What if…?')","ty":"Activity","bank":true}
+      ]},
+      {"name":"Apply existing knowledge to generate new ideas, products or processes","resources":[
+        {"t":"New Problem, Old Tools","ty":"Activity","bank":true},
+        {"t":"Same Idea, New Topic","ty":"Activity","bank":true}
+      ]},
+      {"name":"Create original works and ideas; use existing works and ideas in new ways","resources":[
+        {"t":"RAFTS","ty":"Activity","bank":true},
+        {"t":"Colour–Symbol–Image","ty":"Activity","bank":true}
+      ]},
+      {"name":"Practise flexible thinking — develop multiple opposing, contradictory and complementary arguments","resources":[
+        {"t":"Tug of War","ty":"Activity","bank":true},
+        {"t":"Hammer & Nail","ty":"Activity","bank":true}
+      ]},
+      {"name":"Practise visible-thinking strategies and techniques","resources":[
+        {"t":"See-Think-Wonder","ty":"Activity","bank":true},
+        {"t":"Connect, Extend, Challenge","ty":"Activity","bank":true},
+        {"t":"Project Zero — Thinking Routines Toolbox","ty":"Article/Website"}
+      ]},
+      {"name":"Generate metaphors and analogies","resources":[
+        {"t":"Analogy Architects","ty":"Activity","bank":true},
+        {"t":"Visual Synectics","ty":"Activity","bank":true},
+        {"t":"3-2-1 Bridge (analogy row)","ty":"Activity","bank":true}
+      ]}
+    ]},
+    {"cat":"Thinking","name":"Transfer skills","desc":"Using skills and knowledge in multiple contexts.","subskills":[
+      {"name":"Use effective learning strategies in subject groups and disciplines","resources":[
+        {"t":"Flashcards Done Right","ty":"Activity","bank":true},
+        {"t":"Cornell Notes","ty":"Activity","bank":true}
+      ]},
+      {"name":"Apply skills and knowledge in unfamiliar situations","resources":[
+        {"t":"New Problem, Old Tools","ty":"Activity","bank":true},
+        {"t":"Transfer Ticket","ty":"Activity","bank":true},
+        {"t":"Concept in Disguise","ty":"Activity","bank":true}
+      ]},
+      {"name":"Inquire in different contexts to gain a different perspective","resources":[
+        {"t":"Same Idea, New Topic","ty":"Activity","bank":true}
+      ]},
+      {"name":"Compare conceptual understanding across multiple subject groups and disciplines","resources":[
+        {"t":"Venn Diagram (cross-subject)","ty":"Activity","bank":true},
+        {"t":"3-2-1 Bridge","ty":"Activity","bank":true}
+      ]},
+      {"name":"Make connections between subject groups and disciplines","resources":[
+        {"t":"Text-to-Text, Self, World","ty":"Activity","bank":true},
+        {"t":"Real-World Application Round","ty":"Activity","bank":true}
+      ]},
+      {"name":"Combine knowledge, understanding and skills to create products or solutions","resources":[
+        {"t":"Format Flip","ty":"Activity","bank":true}
+      ]},
+      {"name":"Transfer current knowledge to learning of new technologies","resources":[
+        {"t":"New Problem, Old Tools","ty":"Activity","bank":true}
+      ]},
+      {"name":"Change the context of an inquiry to gain different perspectives","resources":[
+        {"t":"Concept in Disguise","ty":"Activity","bank":true},
+        {"t":"Step Inside","ty":"Activity","bank":true}
+      ]}
+    ]}
+  ]
+};
+(function(){
+  const RTY_ORDER = ["Activity","Video","Worksheet","Article/Website","Tool/App","Other"];
+  const CL_ORDER = ATL_DATA.clusters.map(c=>c.name);
+  window.atlState = { q:"", cl:new Set(), rty:new Set() };
+  const atlState = window.atlState;
+
+  const clG = document.querySelector('.fgroup[data-key="cl"]');
+  const rtyG = document.querySelector('.fgroup[data-key="rty"]');
+  const tlGroups = ['type','prep','time','phase'].map(k=>document.querySelector('.fgroup[data-key="'+k+'"]'));
+  const listEl = document.getElementById('atl-list');
+  const gridEl = document.getElementById('grid');
+  const searchEl = document.getElementById('search');
+  const countEl = document.getElementById('count');
+  const emptyEl = document.getElementById('empty');
+
+  window.buildATLCat = function(){
+    const wrap = document.getElementById('pills-cl'); wrap.innerHTML='';
+    CL_ORDER.forEach(val=>{
+      const b=document.createElement('button');
+      b.className='pill'+(atlState.cl.has(val)?' on':''); b.type='button'; b.textContent=val;
+      b.setAttribute('aria-pressed', atlState.cl.has(val));
+      b.addEventListener('click',()=>{
+        if(atlState.cl.has(val)) atlState.cl.delete(val); else atlState.cl.add(val);
+        b.classList.toggle('on'); b.setAttribute('aria-pressed', b.classList.contains('on'));
+        atlRender();
+      });
+      wrap.appendChild(b);
+    });
+  };
+  window.buildTLType = function(){
+    const wrap = document.getElementById('pills-rty'); wrap.innerHTML='';
+    RTY_ORDER.forEach(val=>{
+      const b=document.createElement('button');
+      b.className='pill'+(atlState.rty.has(val)?' on':''); b.type='button'; b.textContent=val;
+      b.setAttribute('aria-pressed', atlState.rty.has(val));
+      b.addEventListener('click',()=>{
+        if(atlState.rty.has(val)) atlState.rty.delete(val); else atlState.rty.add(val);
+        b.classList.toggle('on'); b.setAttribute('aria-pressed', b.classList.contains('on'));
+        atlRender();
+      });
+      wrap.appendChild(b);
+    });
+  };
+
+  function resMatches(r){
+    if(atlState.rty.size && !atlState.rty.has(r.ty)) return false;
+    if(atlState.q && !r.t.toLowerCase().includes(atlState.q)) return false;
+    return true;
+  }
+  function subMatches(ss){
+    if(atlState.q && ss.name.toLowerCase().includes(atlState.q)) return ss.resources.filter(r=>!atlState.rty.size || atlState.rty.has(r.ty));
+    return ss.resources.filter(resMatches);
+  }
+
+  window.atlRender = function(){
+    listEl.innerHTML=''; let shownRes=0, shownSub=0;
+    ATL_DATA.clusters.forEach(cl=>{
+      if(atlState.cl.size && !atlState.cl.has(cl.name)) return;
+      const filtering = atlState.q || atlState.rty.size;
+      const subBlocks = [];
+      cl.subskills.forEach(ss=>{
+        const res = subMatches(ss);
+        if(filtering && !res.length) return;
+        shownSub++; shownRes += res.length;
+        const items = res.length
+          ? '<ul class="reslist">'+res.map(r=>{
+              const tyClass = (r.ty==='Article/Website'||r.ty==='Tool/App') ? '' : ' '+r.ty;
+              const bank = r.bank ? '<button class="rlink" type="button" data-find="'+r.t.replace(/"/g,'&quot;')+'">find in bank \u2192</button>' : '';
+              return '<li class="res"><span class="rty'+tyClass+'" data-t="'+r.ty+'">'+r.ty+'</span><span class="rtitle">'+r.t+'</span>'+bank+'</li>';
+            }).join('')+'</ul>'
+          : '<div class="ss-empty">No linked resources yet \u2014 a good place to add your own.</div>';
+        subBlocks.push('<details class="ss"'+(filtering?' open':'')+'><summary>'+ss.name+'<span class="cnt'+(res.length?'':' zero')+'">'+res.length+' resource'+(res.length===1?'':'s')+'</span></summary>'+items+'</details>');
+      });
+      if(!subBlocks.length) return;
+      const div=document.createElement('div'); div.className='cluster';
+      div.innerHTML = '<div class="cl-head"><div class="cat">'+cl.cat+'</div><h2>'+cl.name+'</h2><div class="desc">'+cl.desc+'</div></div><div class="cl-body">'+subBlocks.join('')+'</div>';
+      listEl.appendChild(div);
+    });
+    countEl.textContent = shownSub+' skill'+(shownSub===1?'':'s')+' \u00b7 '+shownRes+' resource'+(shownRes===1?'':'s');
+    emptyEl.style.display = shownSub? 'none':'block';
+    const anyFilter = atlState.q || atlState.cl.size || atlState.rty.size;
+    document.getElementById('clearAll').classList.toggle('show', !!anyFilter);
+    listEl.querySelectorAll('[data-find]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const t = btn.getAttribute('data-find').replace(/\s*\(.*\)\s*$/,'');
+        window.switchMode('tl');
+        searchEl.value = t; state.q = t.toLowerCase().replace(/\s*\(.*\)\s*$/,'');
+        render();
+        window.scrollTo({top:0});
+      });
+    });
+  };
+
+  window.switchMode = function(mode){
+    window.__mode = mode;
+    const atl = mode==='atl';
+    document.getElementById('bank-tl').classList.toggle('on', !atl);
+    document.getElementById('bank-tl').setAttribute('aria-pressed', !atl);
+    document.getElementById('bank-atl').classList.toggle('on', atl);
+    document.getElementById('bank-atl').setAttribute('aria-pressed', atl);
+    gridEl.style.display = atl ? 'none' : '';
+    listEl.hidden = !atl;
+    tlGroups.forEach(g=>{ g.style.display = atl ? 'none' : ''; });
+    clG.style.display = atl ? '' : 'none';
+    rtyG.style.display = atl ? '' : 'none';
+    document.getElementById('typeLabel').textContent = 'Type';
+    searchEl.placeholder = atl ? 'Search ATL skills and resources\u2026' : 'Search activities\u2026 (e.g. quiz, whiteboard, breakfast)';
+    searchEl.value = atl ? atlState.q : state.q;
+    if(atl){ buildATLCat(); buildTLType(); atlRender(); } else { render(); }
+  };
+  document.getElementById('bank-tl').addEventListener('click', ()=>switchMode('tl'));
+  document.getElementById('bank-atl').addEventListener('click', ()=>switchMode('atl'));
+  clG.style.display='none'; rtyG.style.display='none';
+})();
+</script>
+</body>
+</html>
